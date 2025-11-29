@@ -75,8 +75,8 @@ const Main: React.FC = () => {
 						</button>
 					</div>
 					<div className="text-gray-700 text-sm">
-						<p>Publicado em 16/07/2025 17h37</p>
-						<p>Atualizado em 17/07/2025 00h29</p>
+						<p>Publicado em 16/11/2025 17h37</p>
+						<p>Atualizado em 17/11/2025 00h29</p>
 					</div>
 				</div>
 
