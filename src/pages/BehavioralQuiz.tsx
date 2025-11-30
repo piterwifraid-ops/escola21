@@ -101,11 +101,7 @@ const BehavioralQuiz: React.FC = () => {
       <header className="bg-white shadow-sm border-b">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <img 
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Gov.br_logo.svg/1200px-Gov.br_logo.svg.png" 
-              alt="gov.br logo" 
-              className="h-6 md:h-7"
-            />
+            
             <div className="text-sm text-gray-600">
               Programa Agente Escola - Avaliação Comportamental
             </div>
