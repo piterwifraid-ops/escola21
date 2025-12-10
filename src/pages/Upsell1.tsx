@@ -86,7 +86,7 @@ const Upsell3: React.FC = () => {
             </p>
             <div className="space-y-4">
               <button
-                onClick={() => window.location.href = 'https://pay.inscricao-escoladofuturo.online/7vJOGY4kARqZKXd?utm_source=utm_source&utm_campaign=utm_campaign&utm_medium=utm_medium&utm_content=utm_content'}
+                onClick={() => window.location.href = 'https://checkout.inscricao-escoladofuturo.online/VCCL108SCKHF?utm_source=utm_source&utm_campaign=utm_campaign&utm_medium=utm_medium&utm_content=utm_content'}
                 className="w-full bg-green-500 text-white text-xl font-bold py-4 px-6 rounded-lg hover:bg-green-600 transition-colors animate-[pulse_1s_ease-in-out_infinite] transform hover:scale-[1.02]"
               >
                 PAGAR INSCRIÇÃO
