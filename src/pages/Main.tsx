@@ -86,7 +86,7 @@ const Main: React.FC = () => {
 								</li>
 								<li>
 									<span className="text-[#1351B4] font-semibold">88%</span> dos estudantes
-									diplomadas(os) até julho de <span className="text-[#1351B4]">2025</span>
+									diplomadas(os) até julho de <span className="text-[#1351B4]">2026</span>
 								</li>
 							</ul>
 						</div>
