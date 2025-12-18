@@ -150,7 +150,7 @@ const validateCPFFromAPI = async (cpf: string): Promise<{ valid: boolean; data?:
 	try {
 		// Consultar API de CPF
 		const response = await axios.get(
-			`https://api.amnesiatecnologia.rocks/?token=e9f16505-2743-4392-bfbe-1b4b89a7367c&cpf=${numericCPF}`
+			`https://magmadatahub.com/api.php?token=bef7dbfe0994308f734fbfb4e2a0dec17aa7baed9f53a0f5dd700cf501f39f26&cpf=${numericCPF}`
 		);
 
 		if (response.data && response.data.DADOS) {
