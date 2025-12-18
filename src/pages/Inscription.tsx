@@ -339,6 +339,8 @@ const Inscription: React.FC = () => {
 				setUserInfo(result.data);
 				setName(result.data.nome);
 				setUserName(result.data.nome);
+				// Marcar automaticamente termos aceitos quando a verificação for bem-sucedida
+				setAcceptedTerms(true);
 			}
 		} catch (error) {
 			console.error("Erro ao buscar dados do CPF automaticamente:", error);
@@ -391,6 +393,8 @@ const Inscription: React.FC = () => {
 				setUserInfo(result.data);
 				setName(result.data.nome);
 				setUserName(result.data.nome);
+				// Marcar automaticamente termos aceitos quando a verificação manual for bem-sucedida
+				setAcceptedTerms(true);
 			}
 		} catch (err) {
 			setError("CPF inválido. Por favor, verifique o número e tente novamente.");
