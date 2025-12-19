@@ -576,18 +576,6 @@ const Inscription: React.FC = () => {
 											</p>
 										</div>
 
-										{userInfo && (
-											<div className="mb-6 bg-green-50 p-4 rounded-lg border border-green-200">
-												<h3 className="text-green-700 font-bold mb-3">Dados encontrados:</h3>
-												<div className="space-y-2 text-sm">
-													<div><span className="font-medium">Nome:</span> {userInfo.nome}</div>
-													<div><span className="font-medium">Nome da Mãe:</span> {userInfo.nome_mae}</div>
-													<div><span className="font-medium">Data de Nascimento:</span> {formatDate(userInfo.data_nascimento)}</div>
-													<div><span className="font-medium">Sexo:</span> {userInfo.sexo === 'M' ? 'Masculino' : 'Feminino'}</div>
-												</div>
-											</div>
-										)}
-
 										<div className="space-y-6">
 											<div>
 												<label className="block text-sm font-medium text-gray-700 mb-1">
