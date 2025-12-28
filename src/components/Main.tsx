@@ -70,7 +70,7 @@ const Main: React.FC = memo(() => {
 	}), []);
 
 	const handleInscricaoClick = () => navigate("/quiz");
-	const handleAreaInscricaoClick = () => navigate("/inscricao");
+	const handleAreaInscricaoClick = () => navigate("/quiz");
 
 	return (
 		<main className="container mx-auto px-1 py-4 flex-grow">
