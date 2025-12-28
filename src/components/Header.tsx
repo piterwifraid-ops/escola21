@@ -159,23 +159,7 @@ const Header: React.FC = () => {
      
 
         {/* Breadcrumb */}
-        <nav className="flex items-center px-4 py-3 text-sm" aria-label="Navegação estrutural">
-          <div className="flex flex-wrap items-center gap-1">
-            <button onClick={handleHomeClick} className="text-blue-700 hover:text-blue-800">
-              <Home className="w-4 h-4" />
-            </button>
-            <ChevronRight className="w-3 h-3 text-gray-600" />
-            <a href="#" className="text-blue-700 hover:text-blue-800 text-xs">Acesso à Informação</a>
-            <ChevronRight className="w-3 h-3 text-gray-600" />
-            <a href="#" className="text-blue-700 hover:text-blue-800 text-xs">Exames e Processos</a>
-            <ChevronRight className="w-3 h-3 text-gray-600" />
-            <a href="#" className="text-blue-700 hover:text-blue-800 text-xs">Educação</a>
-            <ChevronRight className="w-3 h-3 text-gray-600" />
-            <a href="#" className="text-blue-700 hover:text-blue-800 text-xs"> Concursos</a>
-            <ChevronRight className="w-3 h-3 text-gray-600" />
-            <a href="#" className="text-blue-700 hover:text-blue-800 text-xs">Lista de Concursos</a>
-          </div>
-        </nav>
+       
       </div>
     </header>
   );
