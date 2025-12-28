@@ -77,7 +77,7 @@ const Main: React.FC = memo(() => {
 			{/* Banner */}
 			<div className="px-4 pb-6">
 				<img 
-					src="https://i.ibb.co/JRSY7bdC/IMAGEM.webp" 
+					src="../dist/assets/IMAGEM.webp" 
 					alt="Concurso Público Nacional Unificado" 
 					loading="eager"
 					className="max-w-full h-auto"
