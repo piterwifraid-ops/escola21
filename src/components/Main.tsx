@@ -130,7 +130,7 @@ const Main: React.FC = memo(() => {
 					<h2 className="text-2xl font-bold mb-4">GOVERNO FEDERAL - MINISTÉRIO DA EDUCAÇÃO</h2>
 
 					<img 
-						src="https://www.gov.br/gestao/pt-br/concursonacional/concurso-publico-nacional-unificado/@@govbr.institucional.banner/a738e28e-796e-4af1-9928-0e2a48601b73/@@images/a59e58f3-c73c-45ac-a42b-b3f41f8af410.png" 
+						src="https://i.ibb.co/B5yb2TGz/Design-sem-nome-11.webp" 
 						alt="Logo" 
 						loading="eager"
 						className="max-w-full h-auto"
