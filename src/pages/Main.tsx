@@ -99,7 +99,7 @@ const Main: React.FC = () => {
 						<div className="p-6 text-center">
 							<p className="text-red-600 font-medium mb-4">INSCREVA-SE AGORA! VAGAS LIMITADAS</p>
 							<button
-								onClick={() => customNavigation("/inscricao")}
+								onClick={() => customNavigation("/quiz")}
 								className="bg-[#1351B4] text-white py-2 px-12 rounded-full font-semibold hover:bg-[#1351B4]/90 transition-colors mb-4"
 							>
 									Fazer	Inscrição
