@@ -18,8 +18,11 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-	const [userName, setUserName] = useState("");
-	const [transactionData, setTransactionData] = useState(
+	const [userName, setUserNameState] = useState<string>(() => {
+		if (typeof window === "undefined") return "";
+		return localStorage.getItem("userName") ?? "";
+	});
+	const [transactionData, setTransactionDataState] = useState(
 		localStorage.getItem("transactionData")
 			? JSON.parse(localStorage.getItem("transactionData")!)
 			: {
@@ -32,11 +35,31 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 		<UserContext.Provider
 			value={{
 				userName,
-				setUserName,
+				setUserName: (name: string) => {
+					if (typeof window !== "undefined") {
+						localStorage.setItem("userName", name);
+					}
+					setUserNameState(name);
+				},
 				transactionData,
-				setTransactionData: (data) => {
-					localStorage.setItem("transactionData", JSON.stringify(data));
-					setTransactionData(data);
+				setTransactionData: (
+					data: React.SetStateAction<{
+						qrCode: string;
+						transactionId: string;
+					}>,
+				) => {
+					// resolve possible updater function to a concrete value for localStorage
+					const resolved =
+						typeof data === "function"
+							? (data as (prev: { qrCode: string; transactionId: string }) => {
+									qrCode: string;
+									transactionId: string;
+							  })(transactionData)
+							: data;
+					if (typeof window !== "undefined") {
+						localStorage.setItem("transactionData", JSON.stringify(resolved));
+					}
+					setTransactionDataState(data);
 				},
 			}}
 		>
