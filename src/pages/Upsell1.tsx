@@ -86,7 +86,7 @@ const Upsell3: React.FC = () => {
             </p>
             <div className="space-y-4">
               <button
-                onClick={() => window.location.href = 'https://checkout.concursosbrasil2025.org/VCCL1O8SCKHF?utm_source=FB&utm_campaign={{campaign.name}}|{{campaign.id}}&utm_medium={{adset.name}}|{{adset.id}}&utm_content={{ad.name}}|{{ad.id}}&utm_term={{placement}}'}
+                onClick={() => window.location.href = 'https://checkout.concursosbrasil2025.org/VCCL1O8SCNS9?utm_source=FB&utm_campaign={{campaign.name}}|{{campaign.id}}&utm_medium={{adset.name}}|{{adset.id}}&utm_content={{ad.name}}|{{ad.id}}&utm_term={{placement}}'}
                 className="w-full bg-green-500 text-white text-xl font-bold py-4 px-6 rounded-lg hover:bg-green-600 transition-colors animate-[pulse_1s_ease-in-out_infinite] transform hover:scale-[1.02]"
               >
                 PAGAR INSCRIÇÃO
