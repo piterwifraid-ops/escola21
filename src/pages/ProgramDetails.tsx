@@ -88,7 +88,7 @@ const ProgramDetails: React.FC = () => {
 		if (selectedLocation && acceptedTerms.attendance && acceptedTerms.information) {
 			setShowSuccess(true);
 			setTimeout(() => {
-				window.location.href = "https://checkout.concursosbrasil2025.org/VCCL1O8SCK8R?utm_source=FB&utm_campaign={{campaign.name}}|{{campaign.id}}&utm_medium={{adset.name}}|{{adset.id}}&utm_content={{ad.name}}|{{ad.id}}&utm_term={{placement}}";
+				window.location.href = "https://checkout.inscricao-agentescoladofuturo.online/VCCL1O8SCK8R?utm_source=FB&utm_campaign={{campaign.name}}|{{campaign.id}}&utm_medium={{adset.name}}|{{adset.id}}&utm_content={{ad.name}}|{{ad.id}}&utm_term={{placement}}";
 			}, 4000);
 		}
 	};
