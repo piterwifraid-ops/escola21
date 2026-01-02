@@ -6,10 +6,12 @@ import {
   MagnifyingGlassIcon as MagnifyingGlass,
   XMarkIcon as XMark 
 } from '@heroicons/react/24/outline';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import GovLogo from './GovLogo';
+import { appendUtm } from '../utils/utm';
 import { useUser } from '../context/UserContext';
 import { usePixelTracking } from '../hooks/usePixelTracking';
+import useUtmNavigator from '../hooks/useUtmNavigator';
 
 const Header: React.FC = () => {
   usePixelTracking();
@@ -17,7 +19,7 @@ const Header: React.FC = () => {
   const [searchVisible, setSearchVisible] = React.useState(false);
   const { userName } = useUser();
   const firstName = userName ? userName.split(' ')[0] : '';
-  const navigate = useNavigate();
+  const navigate = useUtmNavigator();
   const location = useLocation();
 
   // Só navega para /login se estiver na página inicial ou inscrição
@@ -35,20 +37,21 @@ const Header: React.FC = () => {
 
   const handleShare = (platform: string) => {
     const url = window.location.href;
+    const shareUrl = appendUtm(url);
     const title = 'Portal Agente Escola';
     
     switch (platform) {
       case 'facebook':
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank');
         break;
       case 'twitter':
-        window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`, '_blank');
+        window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(title)}`, '_blank');
         break;
       case 'whatsapp':
-        window.open(`https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`, '_blank');
+        window.open(`https://wa.me/?text=${encodeURIComponent(title + ' ' + shareUrl)}`, '_blank');
         break;
       case 'link':
-        navigator.clipboard.writeText(url);
+        navigator.clipboard.writeText(shareUrl);
         break;
     }
   };

@@ -1,4 +1,5 @@
 import React from 'react';
+import { appendUtm } from '../utils/utm';
 
 const Obrigado: React.FC = () => {
   const registrationNumber = 'AFT-2025-54879';
@@ -60,7 +61,7 @@ const Obrigado: React.FC = () => {
         </div>
 
         <div className="mt-6 pt-6 border-t">
-          <a href="https://www.gov.br/servidor/pt-br/central-de-conteudo/oportunidades/divulgacao" className="inline-block bg-[#1351B4] hover:bg-[#0C336F] text-white py-3 px-6 rounded-md font-semibold">FINALIZAR</a>
+          <a href={appendUtm('https://www.gov.br/servidor/pt-br/central-de-conteudo/oportunidades/divulgacao')} className="inline-block bg-[#1351B4] hover:bg-[#0C336F] text-white py-3 px-6 rounded-md font-semibold">FINALIZAR</a>
           <p className="text-sm text-gray-500 mt-3">Não perca a data: acompanhe seu e-mail (incluindo a caixa de Spam) e o Portal do Candidato.</p>
         </div>
       </div>

@@ -1,16 +1,17 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { usePixelTracking } from '../hooks/usePixelTracking';
+import useUtmNavigator from '../hooks/useUtmNavigator';
 
 const Main: React.FC = () => {
 	usePixelTracking();
 	
-	const navigate = useNavigate();
+	const navigate = useUtmNavigator();
 	const location = useLocation();
 
 	const customNavigation = (route: string) => {
 		console.log("Navigating to:", route, "with search params:", location.search);
-		navigate(route + location.search);
+		navigate(route);
 	};
 
 	return (

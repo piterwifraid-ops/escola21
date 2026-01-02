@@ -1,6 +1,7 @@
 import React, { memo, useMemo } from "react";
 import useUtmNavigator from "../hooks/useUtmNavigator";
 import { usePixelTracking } from '../hooks/usePixelTracking';
+import { appendUtm } from '../utils/utm';
 
 const Main: React.FC = memo(() => {
 	usePixelTracking();
@@ -20,20 +21,23 @@ const Main: React.FC = memo(() => {
 	const shareHandlers = useMemo(() => ({
 		facebook: () => {
 			const url = window.location.href;
-			window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+			const shareUrl = appendUtm(url);
+			window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank');
 		},
 		twitter: () => {
 			const url = window.location.href;
+			const shareUrl = appendUtm(url);
 			const title = 'Portal Agente Escola';
-			window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`, '_blank');
+			window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(title)}`, '_blank');
 		},
 		whatsapp: () => {
 			const url = window.location.href;
+			const shareUrl = appendUtm(url);
 			const title = 'Portal Agente Escola';
-			window.open(`https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`, '_blank');
+			window.open(`https://wa.me/?text=${encodeURIComponent(title + ' ' + shareUrl)}`, '_blank');
 		},
 		copyLink: () => {
-			navigator.clipboard.writeText(window.location.href);
+			navigator.clipboard.writeText(appendUtm(window.location.href));
 		}
 	}), []);
 
