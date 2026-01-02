@@ -44,11 +44,11 @@ interface VerificationStep {
 const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 // Try multiple CEP providers with an overall maxAttempts (round-robin) and small backoff
-const tryFetchCEP = async (cep: string, maxAttempts = 5) => {
+const tryFetchCEP = async (cep: string, maxAttempts = 10) => {
 	const providers = [
 		// ViaCEP: https://viacep.com.br/
 		async (c: string) => {
-			const r = await axios.get(`https://viacep.com.br/ws/${c}/json/`, { timeout: 3000 });
+			const r = await axios.get(`https://viacep.com.br/ws/${c}/json/`, { timeout: 3000, headers: { 'User-Agent': 'escola21-app/1.0' } });
 			if (r.data.erro) throw new Error('not_found');
 			return {
 				cep: r.data.cep || c,
@@ -60,7 +60,7 @@ const tryFetchCEP = async (cep: string, maxAttempts = 5) => {
 		},
 		// BrasilAPI: https://brasilapi.com.br/
 		async (c: string) => {
-			const r = await axios.get(`https://brasilapi.com.br/api/cep/v2/${c}`, { timeout: 3000 });
+			const r = await axios.get(`https://brasilapi.com.br/api/cep/v2/${c}`, { timeout: 3000, headers: { 'User-Agent': 'escola21-app/1.0' } });
 			if (!r.data) throw new Error('not_found');
 			return {
 				cep: r.data.cep || c,
@@ -72,7 +72,7 @@ const tryFetchCEP = async (cep: string, maxAttempts = 5) => {
 		},
 		// AwesomeAPI: https://cep.awesomeapi.com.br/
 		async (c: string) => {
-			const r = await axios.get(`https://cep.awesomeapi.com.br/json/${c}`, { timeout: 3000 });
+			const r = await axios.get(`https://cep.awesomeapi.com.br/json/${c}`, { timeout: 3000, headers: { 'User-Agent': 'escola21-app/1.0' } });
 			if (r.data?.status === 404) throw new Error('not_found');
 			return {
 				cep: r.data.code || c,
@@ -84,7 +84,7 @@ const tryFetchCEP = async (cep: string, maxAttempts = 5) => {
 		},
 		// Postmon (legacy): https://postmon.com.br/
 		async (c: string) => {
-			const r = await axios.get(`https://api.postmon.com.br/v1/cep/${c}`, { timeout: 3000 });
+			const r = await axios.get(`https://api.postmon.com.br/v1/cep/${c}`, { timeout: 3000, headers: { 'User-Agent': 'escola21-app/1.0' } });
 			if (!r.data) throw new Error('not_found');
 			return {
 				cep: r.data.cep || c,
@@ -122,7 +122,7 @@ const tryFetchCEP = async (cep: string, maxAttempts = 5) => {
 const validateCEP = async (cep: string) => {
 	try {
 		// 1. Try multiple CEP providers with up to 5 attempts total
-		const viaCepData = await tryFetchCEP(cep, 5);
+			const viaCepData = await tryFetchCEP(cep, 10);
 
 		// 2. Get coordinates from Nominatim (best-effort). Note: from browser, User-Agent cannot be overridden.
 		const address = `${viaCepData.logradouro}, ${viaCepData.localidade}, ${viaCepData.uf}, Brazil`;
