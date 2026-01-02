@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import useUtmNavigator from '../hooks/useUtmNavigator';
 import { useUser } from "../context/UserContext";
 import { getPaymentToken } from "../utils/paymentToken";
 import QRious from "qrious";
@@ -13,7 +14,7 @@ const PixPayment: React.FC = () => {
 	
 	const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
 	const [copied, setCopied] = useState(false); 
-	const navigate = useNavigate();
+	const navigate = useUtmNavigator();
 	const location = useLocation();
 
 	const { transactionData } = useUser();

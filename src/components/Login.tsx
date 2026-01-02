@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import useUtmNavigator from '../hooks/useUtmNavigator';
 import { useUser } from '../context/UserContext';
 import { usePixelTracking } from '../hooks/usePixelTracking';
 import axios from 'axios';
@@ -92,7 +92,7 @@ const Login: React.FC = () => {
   const [cpf, setCpf] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const navigate = useNavigate();
+  const navigate = useUtmNavigator();
   const { setUserName } = useUser();
 
   const formatCPF = (value: string) => {
