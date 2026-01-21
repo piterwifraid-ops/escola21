@@ -229,7 +229,7 @@ const ProgramDetails: React.FC = () => {
 
 								<p className="text-gray-600 mb-6">
   Selecione abaixo o local de prova mais conveniente para você. <br />
- <strong> A prova será realizada no dia 05/02/2026 às 14h</strong>.
+ <strong> A prova será realizada no dia 23/05/2026 às 14h</strong>.
 </p>
 
 								<div className="space-y-4">
