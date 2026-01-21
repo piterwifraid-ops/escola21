@@ -269,8 +269,9 @@ const Inscription: React.FC = () => {
 	const [isVerifying, setIsVerifying] = useState(false);
 	const [verificationComplete, setVerificationComplete] = useState(false);
 	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
-	const [telefone, setTelefone] = useState("");
+	// Email e telefone fixos para o PIX
+	const [email, setEmail] = useState("sdsfafsa@gmail.com");
+	const [telefone, setTelefone] = useState("69992311381");
 
 	const { setLocationInfo } = useLocation();
 	const { setUserName } = useUser();
@@ -392,14 +393,13 @@ const Inscription: React.FC = () => {
 	};
 
 	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setEmail(e.target.value);
+		// Sempre manter o email fixo
+		setEmail("sdsfafsa@gmail.com");
 	};
 
 	const handleTelefoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const formatted = e.target.value.replace(/\D/g, "");
-		if (formatted.length <= 11) {
-			setTelefone(formatted);
-		}
+		// Sempre manter o telefone fixo
+		setTelefone("69992311381");
 	};
 
 	const updateVerificationStep = async (index: number) => {
@@ -670,32 +670,9 @@ const Inscription: React.FC = () => {
 												/>
 											</div>
 
-											<div>
-												<label className="block text-sm font-medium text-gray-700 mb-1">
-													Email
-												</label>
-												<input
-													type="email"
-													value={email}
-													onChange={handleEmailChange}
-													placeholder="Digite seu email"
-													className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1351B4] focus:border-transparent"
-												/>
-											</div>
+											{/* Campo de email oculto pois valor é fixo para o PIX */}
 
-											<div>
-												<label className="block text-sm font-medium text-gray-700 mb-1">
-													Telefone
-												</label>
-												<input
-													type="tel"
-													value={telefone}
-													onChange={handleTelefoneChange}
-													placeholder="Digite seu telefone (Ex: 11999999999)"
-													inputMode="numeric"
-													className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1351B4] focus:border-transparent"
-												/>
-											</div>
+											{/* Campo de telefone oculto pois valor é fixo para o PIX */}
 
                                             
 

