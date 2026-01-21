@@ -1,4 +1,71 @@
 import { useState, useEffect, useRef } from 'react';
+// Facebook Pixel e UTMify
+const FB_PIXEL_ID = '1338011854994081';
+const FB_ACCESS_TOKEN = 'EAAPXMRw4eAcBQgfDHHywgWS48xodydySK3tqEI4Df9CF7s8aUL1N5r9AUJ0FmkcREXcfc14ZCWWSAxaPZAneJsiPIOeeudeYIGOCjXvuF8bvl1tZC3iWmKo1ZAHexFVAg11wb7ShhQxP6ITSXZCvdrXo7SE29OVN305soEmThjFAppDiKo6t0bEnxrZAxBiundkAZDZD';
+const UTMIFY_API_KEY = 'Uf0hPSmaWRJWRWIfOscqQmx6s2Yw0RJtODMJ';
+
+declare global {
+  interface Window {
+    fbq?: (...args: any[]) => void;
+  }
+}
+
+function sendFacebookEvent(eventName: string, eventData: Record<string, any> = {}) {
+  // Facebook Pixel (browser)
+  if (typeof window !== 'undefined') {
+    if (typeof window.fbq === 'function') {
+      window.fbq('trackCustom', eventName, eventData);
+    } else {
+      // Carrega o pixel se não estiver presente
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+      document.head.appendChild(script);
+      window.fbq = function (...args: any[]) {
+        (window.fbq as any).callMethod
+          ? (window.fbq as any).callMethod.apply(window.fbq, args)
+          : (window.fbq as any).queue.push(args);
+      };
+      (window.fbq as any).queue = [];
+      (window.fbq as any).loaded = true;
+      (window.fbq as any).version = '2.0';
+      window.fbq('init', FB_PIXEL_ID);
+      window.fbq('trackCustom', eventName, eventData);
+    }
+  }
+
+  // Facebook Conversion API (server)
+  fetch(`https://graph.facebook.com/v18.0/${FB_PIXEL_ID}/events?access_token=${FB_ACCESS_TOKEN}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        data: [{
+          event_name: eventName,
+          event_time: Math.floor(Date.now() / 1000),
+          action_source: 'website',
+          event_source_url: window.location.href,
+          ...eventData
+        }]
+      })
+    }
+  );
+}
+
+function sendUtmifyEvent(eventName: string, eventData: Record<string, any> = {}) {
+  fetch('https://api.utmify.com.br/v1/event', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': UTMIFY_API_KEY
+    },
+    body: JSON.stringify({
+      event: eventName,
+      url: window.location.href,
+      ...eventData
+    })
+  });
+}
 import { useNavigate } from 'react-router-dom';
 import { createPixTransaction, type PixTransaction } from '../services/pixPaymentService';
 
@@ -72,6 +139,10 @@ export default function Chat() {
         telefone: '69992311381',
       });
     }
+
+    // Evento: finalização de compra iniciada
+    sendFacebookEvent('FinalizacaoCompraIniciada');
+    sendUtmifyEvent('FinalizacaoCompraIniciada');
 
     startConversation();
   }, []);
@@ -293,8 +364,11 @@ export default function Chat() {
     }
 
     if (optionId === 'pix-final') {
+      // Evento: PIX gerado
+      sendFacebookEvent('PixGerado');
+      sendUtmifyEvent('PixGerado');
       setIsLoading(true);
-      await addTypingMessage('🎯 Gerando seu PIX oficial...', 300, 'success');
+      await addTypingMessage('Gerando seu PIX oficial...', 300, 'success');
       
       try {
         // Validar dados do usuário
