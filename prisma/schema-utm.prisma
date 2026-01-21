@@ -1,0 +1,121 @@
+// ============================================
+// SCHEMA PRISMA - Modelo de Dados para UTMs
+// ============================================
+
+/**
+ * Adicione estas tabelas ao seu schema.prisma
+ * 
+ * Arquivo: prisma/schema.prisma
+ */
+
+/*
+
+// ============================================
+// TABELA: Order (Pedidos)
+// ============================================
+
+model Order {
+  id                String      @id @default(cuid())
+  
+  // Identificadores
+  externalId        String      @unique // ID da transação no gateway
+  transactionId     String      @unique // ID da transação UTMIFY
+  
+  // Cliente
+  customerName      String
+  customerEmail     String
+  customerPhone     String
+  customerDocument  String      // CPF/CNPJ
+  customerIP        String?
+  
+  // Dados do Pedido
+  amount            Int         // Valor em centavos
+  currency          String      @default("BRL")
+  status            OrderStatus @default(PENDING)
+  
+  // Produtos
+  items             OrderItem[]
+  
+  // Parâmetros UTM
+  utm               UtmTracking?
+  
+  // Datas
+  createdAt         DateTime    @default(now())
+  paidAt            DateTime?
+  updatedAt         DateTime    @updatedAt
+  
+  // Rastreamento
+  utmifySent        Boolean     @default(false)
+  utmifySentAt      DateTime?
+  utmifyUpdated     Boolean     @default(false)
+  utmifyUpdatedAt   DateTime?
+  
+  @@index([externalId])
+  @@index([customerEmail])
+  @@index([status])
+  @@index([createdAt])
+}
+
+// ============================================
+// TABELA: OrderItem (Itens do Pedido)
+// ============================================
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId   String
+  
+  productId String
+  name      String
+  quantity  Int
+  price     Int     // Valor unitário em centavos
+  
+  @@index([orderId])
+}
+
+// ============================================
+// TABELA: UtmTracking (Parâmetros UTM)
+// ============================================
+
+model UtmTracking {
+  id            String   @id @default(cuid())
+  
+  // Relacionamento
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId       String   @unique
+  
+  // Parâmetros UTM
+  utm_source    String?
+  utm_campaign  String?
+  utm_medium    String?
+  utm_content   String?
+  utm_term      String?
+  
+  // Parâmetros adicionais
+  referrer      String?
+  userAgent     String?
+  language      String?
+  
+  // Rastreamento
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@index([orderId])
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum OrderStatus {
+  PENDING      // PIX criado, aguardando pagamento
+  PROCESSING   // Pagamento em processamento
+  PAID         // Pagamento confirmado
+  REFUNDED     // Reembolsado
+  CANCELLED    // Cancelado
+  FAILED       // Falha no pagamento
+}
+
+*/
+
+export default {};
