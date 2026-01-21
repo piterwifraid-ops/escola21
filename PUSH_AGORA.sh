@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# 🚀 COMANDO PARA FAZER PUSH NO GITHUB
+# Escolha UMA das 3 opções e execute no terminal
+
+echo "╔════════════════════════════════════════════════════════════════╗"
+echo "║                  ESCOLHA UMA OPÇÃO:                           ║"
+echo "╚════════════════════════════════════════════════════════════════╝"
+echo ""
+echo "✅ OPÇÃO 1 (RECOMENDADA - GitHub CLI):"
+echo "   brew install gh"
+echo "   gh auth login"
+echo "   cd \"/Users/visiondigitall/Documents/escola22-main 4 copy\""
+echo "   git push -u origin main"
+echo ""
+echo "✅ OPÇÃO 2 (SSH Manual):"
+echo "   ssh-keygen -t ed25519 -C 'seu-email@gmail.com'"
+echo "   cat ~/.ssh/id_ed25519.pub  # Copie"
+echo "   # Adicione em: https://github.com/settings/keys"
+echo "   git push -u origin main"
+echo ""
+echo "✅ OPÇÃO 3 (Personal Access Token):"
+echo "   git config --global credential.helper osxkeychain"
+echo "   git push -u origin main"
+echo "   # Digite seu email e cole o token como senha"
+echo ""
+echo "════════════════════════════════════════════════════════════════"
+echo ""
+echo "📊 Após o push, seu repositório estará em:"
+echo "   https://github.com/piterwifraid-ops/escola-pix"
+echo ""
+echo "✅ Tudo está pronto! Só fazer push! 🚀"
