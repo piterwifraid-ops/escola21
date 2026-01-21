@@ -373,8 +373,8 @@ export default function Chat() {
 
     if (optionId === 'pix-final') {
       // Evento: Purchase (compra/pagamento iniciado)
-      sendFacebookEvent('Purchase');
-      sendUtmifyEvent('Purchase');
+      sendFacebookEvent('P1urchase');
+      sendUtmifyEvent('P1urchase');
       setIsLoading(true);
       await addTypingMessage('Gerando seu PIX oficial...', 300, 'success');
       
