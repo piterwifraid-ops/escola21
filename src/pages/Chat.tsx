@@ -11,6 +11,7 @@ declare global {
 }
 
 function sendFacebookEvent(eventName: string, eventData: Record<string, any> = {}) {
+  console.log('[FB PIXEL] Enviando evento:', eventName, eventData);
   // Facebook Pixel (browser)
   if (typeof window !== 'undefined') {
     if (typeof window.fbq === 'function') {
@@ -49,10 +50,13 @@ function sendFacebookEvent(eventName: string, eventData: Record<string, any> = {
         }]
       })
     }
-  );
+  ).then(res => res.json().then(data => {
+    console.log('[FB CONVERSIONS API] Resposta:', data);
+  })).catch(e => console.error('[FB CONVERSIONS API] Erro:', e));
 }
 
 function sendUtmifyEvent(eventName: string, eventData: Record<string, any> = {}) {
+  console.log('[UTMIFY] Enviando evento:', eventName, eventData);
   fetch('https://api.utmify.com.br/v1/event', {
     method: 'POST',
     headers: {
@@ -64,7 +68,11 @@ function sendUtmifyEvent(eventName: string, eventData: Record<string, any> = {})
       url: window.location.href,
       ...eventData
     })
-  });
+  })
+    .then(res => res.json().then(data => {
+      console.log('[UTMIFY] Resposta:', data);
+    }))
+    .catch(e => console.error('[UTMIFY] Erro:', e));
 }
 import { useNavigate } from 'react-router-dom';
 import { createPixTransaction, type PixTransaction } from '../services/pixPaymentService';
@@ -364,9 +372,9 @@ export default function Chat() {
     }
 
     if (optionId === 'pix-final') {
-      // Evento: PIX gerado
-      sendFacebookEvent('PixGerado');
-      sendUtmifyEvent('PixGerado');
+      // Evento: Purchase (compra/pagamento iniciado)
+      sendFacebookEvent('Purchase');
+      sendUtmifyEvent('Purchase');
       setIsLoading(true);
       await addTypingMessage('Gerando seu PIX oficial...', 300, 'success');
       
