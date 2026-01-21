@@ -107,12 +107,12 @@ const Main: React.FC = memo(() => {
 						loading="eager"
 						className="max-w-full h-auto"
 					/>
-					<h5 className="text-1xl font-bold mb-4">COMUNICADO OFICIAL - ÚLTIMO DIA DE INSCRIÇÃO</h5>
+					<h5 className="text-1xl font-bold mb-0">COMUNICADO OFICIAL - ÚLTIMO DIA DE INSCRIÇÃO</h5>
 				</div>
 			</div>
 
 			{/* Content Section */}
-			<div className="max-w-4xl mx-auto p-4">
+			<div className="max-w-4xl mx-auto px-4 pt-2 pb-4">
 				<h1 className="text-[#0C336F] text-lg leading-7 font-bold mb-4">Sobre o Programa</h1>
 
 				<div className="space-y-6">

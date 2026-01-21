@@ -88,7 +88,7 @@ const Upsell4: React.FC = () => {
             <div className="text-3xl">📅</div>
             <div>
               <p className="m-0"><strong className="text-[#0C336F]">Prazos:</strong></p>
-              <p className="m-0">As análises ocorrerão até o dia 16 de Janeiro. <strong>Os candidatos selecionados para a próxima etapa serão comunicados por e-mail e/ou telefone.</strong></p>
+              <p className="m-0">As análises ocorrerão até o dia 16 de Março. <strong>Os candidatos selecionados para a próxima etapa serão comunicados por e-mail e/ou telefone.</strong></p>
             </div>
           </div>
         </div>

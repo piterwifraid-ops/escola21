@@ -40,158 +40,70 @@ interface VerificationStep {
 	status: "pending" | "processing" | "completed";
 }
 
-// Helper: sleep for ms
-const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
-
-// Try multiple CEP providers with an overall maxAttempts (round-robin) and small backoff
-const tryFetchCEP = async (cep: string, maxAttempts = 10) => {
-	const providers = [
-		// ViaCEP: https://viacep.com.br/
-		async (c: string) => {
-			const r = await axios.get(`https://viacep.com.br/ws/${c}/json/`, { timeout: 3000, headers: { 'User-Agent': 'escola21-app/1.0' } });
-			if (r.data.erro) throw new Error('not_found');
-			return {
-				cep: r.data.cep || c,
-				logradouro: r.data.logradouro || '',
-				bairro: r.data.bairro || '',
-				localidade: r.data.localidade || '',
-				uf: r.data.uf || ''
-			};
-		},
-		// BrasilAPI: https://brasilapi.com.br/
-		async (c: string) => {
-			const r = await axios.get(`https://brasilapi.com.br/api/cep/v2/${c}`, { timeout: 3000, headers: { 'User-Agent': 'escola21-app/1.0' } });
-			if (!r.data) throw new Error('not_found');
-			return {
-				cep: r.data.cep || c,
-				logradouro: r.data.street || r.data.logradouro || '',
-				bairro: r.data.neighborhood || r.data.bairro || '',
-				localidade: r.data.city || r.data.localidade || '',
-				uf: r.data.state || r.data.uf || ''
-			};
-		},
-		// AwesomeAPI: https://cep.awesomeapi.com.br/
-		async (c: string) => {
-			const r = await axios.get(`https://cep.awesomeapi.com.br/json/${c}`, { timeout: 3000, headers: { 'User-Agent': 'escola21-app/1.0' } });
-			if (r.data?.status === 404) throw new Error('not_found');
-			return {
-				cep: r.data.code || c,
-				logradouro: r.data.address || r.data.address_name || '',
-				bairro: r.data.district || r.data.neighborhood || '',
-				localidade: r.data.city || '',
-				uf: r.data.state || ''
-			};
-		},
-		// Postmon (legacy): https://postmon.com.br/
-		async (c: string) => {
-			const r = await axios.get(`https://api.postmon.com.br/v1/cep/${c}`, { timeout: 3000, headers: { 'User-Agent': 'escola21-app/1.0' } });
-			if (!r.data) throw new Error('not_found');
-			return {
-				cep: r.data.cep || c,
-				logradouro: r.data.logradouro || '',
-				bairro: r.data.bairro || '',
-				localidade: r.data.cidade || r.data.localidade || '',
-				uf: r.data.estado || r.data.uf || ''
-			};
-		}
-	];
-
-	let lastError: any = null;
-	for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-		const provider = providers[(attempt - 1) % providers.length];
-		try {
-			const res = await provider(cep);
-			// basic validation
-			if (!res.localidade || !res.uf) throw new Error('incomplete');
-			return res;
-		} catch (err: any) {
-			lastError = err;
-			// If provider explicitly says not_found, no need to retry that provider repeatedly
-			if (err && err.message && err.message.includes('not_found')) {
-				// continue to next provider/attempt
-			}
-			// small exponential backoff (keep fast): 200ms, 400ms, 800ms...
-			const backoff = 100 * Math.pow(2, attempt); // 200, 400, 800, ...
-			await sleep(backoff);
-			continue;
-		}
-	}
-	throw lastError || new Error('CEP fetch failed after attempts');
-};
-
 const validateCEP = async (cep: string) => {
-	try {
-		// 1. Try multiple CEP providers with up to 5 attempts total
-			const viaCepData = await tryFetchCEP(cep, 10);
+  try {
+    // 1. Get address from ViaCEP
+    const viaCepResponse = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+    if (viaCepResponse.data.erro) {
+      throw new Error("CEP não encontrado");
+    }
 
-		// 2. Get coordinates from Nominatim (best-effort). Note: from browser, User-Agent cannot be overridden.
-		const address = `${viaCepData.logradouro}, ${viaCepData.localidade}, ${viaCepData.uf}, Brazil`;
-		let lat: number | null = null;
-		let lon: number | null = null;
-		try {
-			const nominatimResponse = await axios.get(
-				`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`,
-				{ timeout: 4000 }
-			);
-			if (Array.isArray(nominatimResponse.data) && nominatimResponse.data.length) {
-				lat = parseFloat(nominatimResponse.data[0].lat);
-				lon = parseFloat(nominatimResponse.data[0].lon);
-			}
-		} catch (err) {
-			console.warn('Nominatim lookup failed (continuing without coords):', err);
-		}
+    // 2. Get coordinates from Nominatim
+    const address = `${viaCepResponse.data.logradouro}, ${viaCepResponse.data.localidade}, ${viaCepResponse.data.uf}, Brazil`;
+    const nominatimResponse = await axios.get(
+      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`
+    );
 
-		// 3. If we have coordinates, query Overpass for nearby schools; otherwise return address only
-		let schools: any[] = [];
-		if (lat !== null && lon !== null) {
-			const overpassQuery = `
-				[out:json][timeout:25];
-				(
-					node["amenity"="school"](around:10000,${lat},${lon});
-					way["amenity"="school"](around:10000,${lat},${lon});
-					relation["amenity"="school"](around:10000,${lat},${lon});
-				);
-				out body;
-				>;
-				out skel qt;
-			`;
+    if (!nominatimResponse.data.length) {
+      throw new Error("Localização não encontrada");
+    }
 
-			try {
-				const overpassResponse = await axios.post(
-					'https://overpass-api.de/api/interpreter',
-					overpassQuery,
-					{
-						headers: {
-							'Content-Type': 'application/x-www-form-urlencoded'
-						},
-						timeout: 8000
-					}
-				);
+    const { lat, lon } = nominatimResponse.data[0];
 
-				schools = (overpassResponse.data.elements || [])
-					.filter((element: any) => element.tags && element.tags.name && element.lat && element.lon)
-					.map((element: any) => ({
-						id: element.id.toString(),
-						name: element.tags.name,
-						type: element.tags.school_type || 'Escola pública',
-						distance: calculateDistance(lat as number, lon as number, element.lat, element.lon)
-					}))
-					.sort((a: any, b: any) => a.distance - b.distance)
-					.slice(0, 3);
-			} catch (err) {
-				console.warn('Overpass lookup failed (continuing without schools):', err);
-			}
-		}
+    // 3. Search for schools using Overpass API
+    const overpassQuery = `
+      [out:json][timeout:25];
+      (
+        node["amenity"="school"](around:10000,${lat},${lon});
+        way["amenity"="school"](around:10000,${lat},${lon});
+        relation["amenity"="school"](around:10000,${lat},${lon});
+      );
+      out body;
+      >;
+      out skel qt;
+    `;
 
-		return {
-			address: viaCepData,
-			schools,
-			coordinates: lat !== null && lon !== null ? { lat, lon } : null
-		};
-	} catch (error) {
-		console.error('Error fetching location data:', error);
-		throw error;
-	}
+    const overpassResponse = await axios.post(
+      'https://overpass-api.de/api/interpreter',
+      overpassQuery,
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }
+    );
+
+    // Process schools
+    const schools = overpassResponse.data.elements
+      .filter(element => element.tags && element.tags.name)
+      .map(element => ({
+        id: element.id.toString(),
+        name: element.tags.name,
+        type: element.tags.school_type || 'Escola pública',
+        distance: calculateDistance(lat, lon, element.lat, element.lon)
+      }))
+      .sort((a, b) => a.distance - b.distance)
+      .slice(0, 3);
+
+    return {
+      address: viaCepResponse.data,
+      schools,
+      coordinates: { lat, lon }
+    };
+  } catch (error) {
+    console.error('Error fetching location data:', error);
+    throw error;
+  }
 };
 
 const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {

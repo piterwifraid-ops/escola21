@@ -15,6 +15,7 @@ import Upsell3 from './pages/Upsell3';
 import Upsell4 from './pages/Upsell4';
 import BehavioralQuiz from './pages/BehavioralQuiz';
 import CheckoutUpsell from './pages/CheckoutUpsell';
+import Chat from './pages/Chat';
 import Login from './components/Login';
 import { LocationProvider } from './context/LocationContext';
 import { UserProvider } from './context/UserContext';
@@ -63,6 +64,7 @@ function App() {
                     <Route path="/upsell3" element={<Upsell3 />} />
                     <Route path="/upsell4" element={<Upsell4 />} />
                     <Route path="/quiz" element={<BehavioralQuiz />} />
+                    <Route path="/chat" element={<Chat />} />
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Routes>
                   <Footer />
