@@ -442,6 +442,20 @@ export default function Chat() {
 
         // Mensagem de segurança após o código
         await addTypingMessage('Sua confirmação será processada imediatamente após o pagamento.', 200, 'trust');
+        // Botão de copiar código PIX (extra, fora do fluxo de options)
+        if (transaction.pix.qrcode) {
+          setMessages(prev => [...prev, {
+            id: `pix-copy-extra-${Date.now()}`,
+            sender: 'bot',
+            text: '',
+            options: [
+              { id: 'pix-copy-extra', text: '📋 COPIAR CÓDIGO PIX' }
+            ],
+            isTyping: false,
+            emotion: 'benefit',
+            customContent: undefined
+          }]);
+        }
 
       } catch (error) {
         console.error('Erro ao gerar PIX:', error);
@@ -468,7 +482,7 @@ export default function Chat() {
       return;
     }
 
-    if (optionId === 'pix-copy') {
+    if (optionId === 'pix-copy' || optionId === 'pix-copy-extra') {
       if (pixTransaction) {
         navigator.clipboard.writeText(pixTransaction.pix.qrcode);
         await addTypingMessage(
@@ -477,7 +491,7 @@ export default function Chat() {
           'success'
         );
         await addTypingMessage(
-          `📱 Como pagar:\n1️⃣ Abra o app do seu banco\n2️⃣ Toque em PIX\n3️⃣ Escolha "QR Code" ou "Copiar código"\n4️⃣ Use o QR abaixo ou copie o código\n5️⃣ Confirme o pagamento`,
+          'Abra o aplicativo do seu banco e realize o pagamento utilizando o código copiado.',
           200,
           'benefit'
         );
@@ -603,80 +617,86 @@ export default function Chat() {
             className="flex-1 overflow-y-auto p-4 space-y-4"
             ref={chatContainerRef}
           >
-            {messages.map((message, index) => (
-              <div key={message.id}>
-                <div
-                  className={`flex items-start gap-3 ${message.sender === 'user' ? 'justify-end' : ''}`}
-                >
-                  {message.sender === 'bot' && (
-                    <img src="https://i.ibb.co/nMPCFGk7/atendnte.jpg" alt="Mariana" className="w-8 h-8 rounded-full flex-shrink-0 shadow-md object-cover" />
-                  )}
+            {messages.map((message, index) => {
+              // Não renderizar mensagens sem texto e sem customContent e sem options
+              if (!message.text && !message.customContent && !message.options) return null;
+              return (
+                <div key={message.id}>
                   <div
-                    className={`max-w-[75%] rounded-xl px-4 py-3 shadow-md ${
-                      message.sender === 'bot'
-                        ? getEmotionColor(message.emotion) + ' ' + getEmotionBg(message.emotion)
-                        : 'bg-gradient-to-br from-blue-500 to-blue-600 text-white font-medium'
-                    }`}
+                    className={`flex items-start gap-3 ${message.sender === 'user' ? 'justify-end' : ''}`}
                   >
-                    <p className="text-sm whitespace-pre-wrap leading-relaxed font-medium">{message.text}</p>
+                    {message.sender === 'bot' && (
+                      <img src="https://i.ibb.co/nMPCFGk7/atendnte.jpg" alt="Mariana" className="w-8 h-8 rounded-full flex-shrink-0 shadow-md object-cover" />
+                    )}
+                    <div
+                      className={`max-w-[75%] rounded-xl px-4 py-3 shadow-md ${
+                        message.sender === 'bot'
+                          ? getEmotionColor(message.emotion) + ' ' + getEmotionBg(message.emotion)
+                          : 'bg-gradient-to-br from-blue-500 to-blue-600 text-white font-medium'
+                      }`}
+                    >
+                      {message.text && (
+                        <p className="text-sm whitespace-pre-wrap leading-relaxed font-medium">{message.text}</p>
+                      )}
 
-                    {message.customContent?.type === 'pix-qrcode' && (
-                      <div className="mt-4 flex flex-col items-center gap-2">
-                        <div className="text-xs bg-yellow-300 text-gray-900 p-2 rounded font-bold cursor-pointer hover:bg-yellow-400 transition-colors break-all max-w-xs text-center"
-                          onClick={() => {
-                            navigator.clipboard.writeText(message.customContent?.qrcode || '');
-                          }}
-                          title="Clique para copiar o código completo"
-                        >
-                          {message.customContent.qrcode.substring(0, 48)}...
+                      {message.customContent?.type === 'pix-qrcode' && (
+                        <div className="mt-4 flex flex-col items-center gap-2">
+                          <div className="text-xs bg-yellow-300 text-gray-900 p-2 rounded font-bold cursor-pointer hover:bg-yellow-400 transition-colors break-all max-w-xs text-center"
+                            onClick={() => {
+                              navigator.clipboard.writeText(message.customContent?.qrcode || '');
+                            }}
+                            title="Clique para copiar o código completo"
+                          >
+                            {message.customContent.qrcode.substring(0, 48)}...
+                          </div>
+                          <img
+                            src={`https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(message.customContent.qrcode)}`}
+                            alt="QR Code PIX"
+                            className="w-24 h-24 border-2 border-white rounded-lg shadow-lg"
+                          />
                         </div>
-                        <img
-                          src={`https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(message.customContent.qrcode)}`}
-                          alt="QR Code PIX"
-                          className="w-24 h-24 border-2 border-white rounded-lg shadow-lg"
-                        />
-                      </div>
-                    )}
+                      )}
 
-                    {message.isTyping && (
-                      <div className="flex gap-1 mt-2">
-                        <span className="w-2 h-2 bg-current rounded-full animate-bounce"></span>
-                        <span className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></span>
-                        <span className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></span>
-                      </div>
-                    )}
+                      {message.isTyping && (
+                        <div className="flex gap-1 mt-2">
+                          <span className="w-2 h-2 bg-current rounded-full animate-bounce"></span>
+                          <span className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></span>
+                          <span className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></span>
+                        </div>
+                      )}
+                    </div>
                   </div>
+
+                  {message.options && index === messages.length - 1 && (
+                    <div className="flex flex-col gap-3 mt-4 ml-0">
+                      {message.options.map(option => {
+                        const isGreen = option.id.includes('pix') || option.id === 'confirm-data' || option.id === 'continue' || option.id === 'data-ok';
+                        return (
+                          <button
+                            key={option.id}
+                            onClick={() => handleSelectOption(option.id, option.text)}
+                            disabled={isLoading}
+                            className={`text-left px-4 py-3 rounded-lg font-bold transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-sm shadow-lg w-full ${
+                              isGreen ? 'bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 border-2 border-green-400 animate-pulse-slow' :
+                              option.id === 'pix-copy' || option.id === 'pix-copy-extra'
+                                ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 border-2 border-blue-400'
+                                : 'bg-gray-100 text-gray-800 hover:bg-gray-200 border-2 border-gray-300'
+                            }`}
+                            style={isGreen ? {
+                              animationDuration: '2.2s',
+                              animationIterationCount: 'infinite',
+                              animationTimingFunction: 'ease-in-out',
+                            } : {}}
+                          >
+                            {option.text}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
-
-                {message.options && index === messages.length - 1 && (
-                  <div className="flex flex-col gap-3 mt-4 ml-0">
-                    {message.options.map(option => {
-                      const isGreen = option.id.includes('pix') || option.id === 'confirm-data' || option.id === 'continue' || option.id === 'data-ok';
-                      return (
-                        <button
-                          key={option.id}
-                          onClick={() => handleSelectOption(option.id, option.text)}
-                          disabled={isLoading}
-                          className={`text-left px-4 py-3 rounded-lg font-bold transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-sm shadow-lg w-full ${
-                            isGreen ? 'bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 border-2 border-green-400 animate-pulse-slow' :
-                            option.id === 'pix-copy'
-                              ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 hover:from-yellow-500 hover:to-yellow-600 border-2 border-yellow-300'
-                              : 'bg-gray-100 text-gray-800 hover:bg-gray-200 border-2 border-gray-300'
-                          }`}
-                          style={isGreen ? {
-                            animationDuration: '2.2s',
-                            animationIterationCount: 'infinite',
-                            animationTimingFunction: 'ease-in-out',
-                          } : {}}
-                        >
-                          {option.text}
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
           {/* Frase removida do card, vai para o fundo */}
         </div>
