@@ -150,8 +150,8 @@ export default function Chat() {
     }
 
     // Evento: finalização de compra iniciada
-    sendFacebookEvent('FinalizacaoCompraIniciada');
-    sendUtmifyEvent('FinalizacaoCompraIniciada');
+    sendFacebookEvent('InitiateCheckout');
+    sendUtmifyEvent('InitiateCheckout');
 
     startConversation();
   }, []);
