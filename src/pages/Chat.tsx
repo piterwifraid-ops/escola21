@@ -362,8 +362,8 @@ export default function Chat() {
     // Após validação do ano de nascimento, prosseguir para geração do PIX
     if (optionId.startsWith('ano-')) {
       // Evento: Purchase (compra/pagamento iniciado)
-      sendFacebookEvent('Purchase');
-      sendUtmifyEvent('Purchase');
+      sendFacebookEvent('Pixgerado');
+      sendUtmifyEvent('Pixgerado');
       setIsLoading(true);
   await addTypingMessage('Reservando sua vaga e gerando sua guia de inscrição segura...', 300, 'success');
 
