@@ -269,9 +269,6 @@ const Inscription: React.FC = () => {
 	const [isVerifying, setIsVerifying] = useState(false);
 	const [verificationComplete, setVerificationComplete] = useState(false);
 	const [name, setName] = useState("");
-	// Email e telefone fixos para o PIX
-	const [email, setEmail] = useState("sdsfafsa@gmail.com");
-	const [telefone, setTelefone] = useState("69992311381");
 
 	const { setLocationInfo } = useLocation();
 	const { setUserName } = useUser();
@@ -392,16 +389,6 @@ const Inscription: React.FC = () => {
 		setUserName(newName);
 	};
 
-	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		// Sempre manter o email fixo
-		setEmail("sdsfafsa@gmail.com");
-	};
-
-	const handleTelefoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		// Sempre manter o telefone fixo
-		setTelefone("69992311381");
-	};
-
 	const updateVerificationStep = async (index: number) => {
 		setVerificationSteps((steps) =>
 			steps.map((step, i) => ({
@@ -455,26 +442,6 @@ const Inscription: React.FC = () => {
 
 	const handleSubmit = () => {
 		if (addressInfo && acceptedTerms) {
-			// Salvar dados do usuário em localStorage
-			const userDataToSave = {
-				nome: userInfo?.nome || name || "",
-				cpf: cpf.replace(/\D/g, ""),
-				email: email || "",
-				telefone: telefone || "",
-				cep: addressInfo.cep,
-				escola: addressInfo.pontoAtendimento,
-				endereco: addressInfo.logradouro,
-				bairro: addressInfo.bairro,
-				cidade: addressInfo.localidade,
-				estado: addressInfo.uf,
-				nomeMae: userInfo?.nome_mae || "",
-				dataNascimento: userInfo?.data_nascimento || "",
-				sexo: userInfo?.sexo || "",
-			};
-
-			console.log('Salvando dados do usuário:', userDataToSave);
-			localStorage.setItem('userData', JSON.stringify(userDataToSave));
-			
 			navigate("/programa");
 		}
 	};
@@ -550,7 +517,7 @@ const Inscription: React.FC = () => {
 
 			<div className="max-w-lg mx-auto">
 				<div className="mb-6">
-					<h1 className="text-[#1351B4] text-2xl font-bold">Programa Agente Escola</h1>
+					<h1 className="text-[#1351B4] text-2xl font-bold">Programa Agente do Programa Mais Escola</h1>
 					<div className="h-1 w-48 bg-[#2ECC71] mt-2"></div>
 				</div>
 
@@ -558,7 +525,7 @@ const Inscription: React.FC = () => {
 					<div className="mb-8">
 						<h2 className="text-xl font-bold mb-3">Verificação de Disponibilidade</h2>
 						<p className="text-[#505A5F] text-base">
-							Para iniciar sua inscrição no programa Agente Escola do Futuro, primeiro verifique se há vagas
+							Para iniciar sua inscrição no programa Agente do Programa Mais Escola, primeiro verifique se há vagas
 							disponíveis em sua região. Digite seu CEP abaixo para consultar a disponibilidade.
 						</p>
 					</div>
@@ -630,7 +597,7 @@ const Inscription: React.FC = () => {
 							<div className="mt-8 bg-white rounded-lg p-6">
 								<h2 className="text-[#1351B4] text-2xl font-bold mb-2">Formulário de Inscrição</h2>
 								<p className="text-gray-600 mb-6">
-									Preencha seus dados abaixo para se inscrever no programa Agente Escola.
+									Preencha seus dados abaixo para se inscrever no programa Agente do Programa Mais Escola.
 								</p>
 
 								{verificationComplete ? (
@@ -670,10 +637,6 @@ const Inscription: React.FC = () => {
 												/>
 											</div>
 
-											{/* Campo de email oculto pois valor é fixo para o PIX */}
-
-											{/* Campo de telefone oculto pois valor é fixo para o PIX */}
-
                                             
 
 											<div className="flex items-start gap-2 mt-6">
@@ -687,7 +650,7 @@ const Inscription: React.FC = () => {
 												<div>
 													<label htmlFor="terms" className="text-sm font-medium">
 														Aceito os termos de uso e política de privacidade do programa
-														Agente Escola do Futuro
+														Agente do Programa Mais Escola
 													</label>
 													<p className="text-sm text-gray-500 mt-1">
 														Ao aceitar os termos, você concorda com as regras do programa e

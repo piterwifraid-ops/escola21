@@ -103,7 +103,7 @@ const BehavioralQuiz: React.FC = () => {
           <div className="flex items-center justify-between">
 
             <div className="text-sm text-gray-600">
-              Programa Agente Escola - Avaliação Comportamental
+              Programa Agente do Programa Mais Escola - Avaliação Comportamental
             </div>
           </div>
         </div>
@@ -115,7 +115,7 @@ const BehavioralQuiz: React.FC = () => {
             <div className="flex flex-col space-y-1.5 p-6 text-center bg-[#1351B4] text-white">
               <h3 className="font-semibold tracking-tight text-2xl">Avaliação Comportamental</h3>
               <p className="text-blue-100 mt-2">
-                Avaliação do perfil profissional para o Programa Agente Escola do Futuro
+                Avaliação do perfil profissional para o Programa Agente do Programa Mais Escola
               </p>
             </div>
 

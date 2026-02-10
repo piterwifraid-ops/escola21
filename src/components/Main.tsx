@@ -48,7 +48,7 @@ const Main: React.FC = memo(() => {
 		<main className="container mx-auto px-1 py-2 flex-grow">
 			{/* Header Section - Carregamento prioritário */}
 			<div className="px-4 py-4">
-				<h1 className="text-3xl font-semibold mb-4 text-blue-800">AGENTE ESCOLA DO FUTURO 2026</h1>
+				<h1 className="text-3xl font-semibold mb-4 text-blue-800">AGENTE DO PROGRAMA MAIS ESCOLA 2026</h1>
 				
 				{/* Share Section - Simplificada */}
 				<div className="border-t border-b border-gray-300 py-3">
@@ -100,9 +100,9 @@ const Main: React.FC = memo(() => {
 				{/* Hero Section */}
 				<div className="py-4">
 					<h2 className="text-2xl font-bold mb-4">GOVERNO FEDERAL - MINISTÉRIO DA EDUCAÇÃO</h2>
-					<h4 className="text-xl font-semibold mb-2 text-blue-800">AGENTE ESCOLA DO FUTURO - PND</h4>
+					<h4 className="text-xl font-semibold mb-2 text-blue-800">AGENTE DO PROGRAMA MAIS ESCOLA - PND</h4>
 					<img 
-						src="https://i.ibb.co/JRSY7bdC/IMAGEM.webp" 
+						src="https://i.ibb.co/TM1XRyg4/BANNER.jpg" 
 						alt="Logo" 
 						loading="eager"
 						className="max-w-full h-auto"
@@ -117,7 +117,7 @@ const Main: React.FC = memo(() => {
 
 				<div className="space-y-6">
 					<p className="text-[17px] leading-relaxed text-[#333333]">
-						O programa Agente Escola do Futuro é uma iniciativa do Governo Federal que marca a ampliação na contratação, formação e atuação de profissionais nas escolas públicas de todo o país. Neste novo momento, o programa abre vagas para novos agentes por meio de um processo seletivo nacional, permitindo que qualquer cidadão brasileiro participe da seleção.
+						O programa Agente do Programa Mais Escola é uma iniciativa do Governo Federal que marca a ampliação na contratação, formação e atuação de profissionais nas escolas públicas de todo o país. Neste novo momento, o programa abre vagas para novos agentes por meio de um processo seletivo nacional, permitindo que qualquer cidadão brasileiro participe da seleção.
 					</p>
 
 					<p className="text-[17px] leading-relaxed text-[#333333]">
@@ -137,10 +137,7 @@ const Main: React.FC = memo(() => {
 					{/* Image - Lazy loading para melhor performance */}
 					<div className="flex justify-center my-6">
 						<img
-							src="https://i.ibb.co/HTPs0QC8/Escol-A-4.png"
-							alt="Grupo de voluntários abraçados representando união e colaboração"
-							loading="lazy"
-							className="rounded-lg shadow-lg max-w-full h-auto"
+						src="https://i.ibb.co/JRMT2pcb/unnamed-1.jpg"
 						/>
 					</div>
 

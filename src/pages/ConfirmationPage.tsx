@@ -9,7 +9,7 @@ const ConfirmationPage: React.FC = () => {
     <main className="container mx-auto px-4 py-8 flex-grow">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-[#1351B4] text-2xl font-bold mb-6">
-          Inscrição no Programa Agente Escola do Futuro
+          Inscrição no Programa Agente do Programa Mais Escola
         </h1>
         
         <h2 className="text-xl font-bold mb-8">Confirmação da sua Inscrição</h2>

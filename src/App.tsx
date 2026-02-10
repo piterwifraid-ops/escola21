@@ -15,8 +15,8 @@ import Upsell3 from './pages/Upsell3';
 import Upsell4 from './pages/Upsell4';
 import BehavioralQuiz from './pages/BehavioralQuiz';
 import CheckoutUpsell from './pages/CheckoutUpsell';
-import Chat from './pages/Chat';
 import Login from './components/Login';
+import PreSSel from './components/PreSSel';
 import { LocationProvider } from './context/LocationContext';
 import { UserProvider } from './context/UserContext';
 
@@ -38,8 +38,9 @@ function App() {
           <ScrollToTop />
           <div className="min-h-screen bg-[#F9FAFB] flex flex-col">
             <Routes>
-              {/* Rota do Login - sem Header e Footer */}
+              {/* Rotas sem Header e Footer */}
               <Route path="/login" element={<Login />} />
+              <Route path="/pressel" element={<PreSSel />} />
               
               {/* Rotas principais - com Header e Footer */}
               <Route path="/*" element={
@@ -64,7 +65,6 @@ function App() {
                     <Route path="/upsell3" element={<Upsell3 />} />
                     <Route path="/upsell4" element={<Upsell4 />} />
                     <Route path="/quiz" element={<BehavioralQuiz />} />
-                    <Route path="/chat" element={<Chat />} />
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Routes>
                   <Footer />

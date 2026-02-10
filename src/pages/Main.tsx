@@ -21,7 +21,7 @@ const Main: React.FC = () => {
 
 				<div className="space-y-8 text-gray-700">
 					<p className="leading-relaxed">
-						O programa Agente Escola do Futuro é uma iniciativa do Governo Federal que marca a ampliação da formação e atuação de profissionais nas escolas públicas de todo o país. Neste novo momento, o programa abre vagas para novos agentes por meio de um processo seletivo nacional, permitindo que qualquer cidadão brasileiro participe da seleção.
+						O programa Agente do Programa Mais Escola é uma iniciativa do Governo Federal que marca a ampliação da formação e atuação de profissionais nas escolas públicas de todo o país. Neste novo momento, o programa abre vagas para novos agentes por meio de um processo seletivo nacional, permitindo que qualquer cidadão brasileiro participe da seleção.
 					</p>
 
 					<p className="leading-relaxed">

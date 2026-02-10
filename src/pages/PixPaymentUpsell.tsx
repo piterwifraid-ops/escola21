@@ -8,11 +8,9 @@ import ReactPixel from "react-facebook-pixel";
 import { hashUserData } from "../utils/pixel";
 import moment from "moment";
 import { usePixelTracking } from '../hooks/usePixelTracking';
-import { usePixRedirect } from '../hooks/usePixRedirect';
 
 const PixPaymentUpsell: React.FC = () => {
   usePixelTracking();
-  usePixRedirect();
   
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
   const [copied, setCopied] = useState(false);
