@@ -27,7 +27,7 @@ const SuccessPage: React.FC = () => {
 						<p>Olá!</p>
 
 						<p>
-							Recebemos sua inscrição para a vaga no programa Agente do Programa Mais Escola destinado ao
+							Recebemos sua inscrição para a vaga no programa Agente Escola destinado ao
 							fortalecimento das escolas públicas.
 						</p>
 

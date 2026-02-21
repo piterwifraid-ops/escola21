@@ -18,41 +18,49 @@ const questions: Question[] = [
       "Importante - faz parte dos meus objetivos",
       "Pouco importante - não é uma prioridade"
     ]
+      },
+  {
+    id: 1,
+    question: "Ao receber orientações sobre procedimentos da escola, você:",
+    context: "As rotinas escolares exigem que os colaboradores sigam orientações pedagógicas e administrativas com atenção.",
+    options: [
+      "Presta atenção e pergunta se tem dúvida",
+      "Prefere aprender na prática",
+      "Anota tudo e segue exatamente",
+      "Escuta e tenta lembrar depois"
+    ]
   },
   {
     id: 2,
-    question: "Como você lida com situações de pressão no trabalho?",
+    question: "Você estaria disposta a passar pelo treinamento gratuito do programa antes do início?",
+    context: "O treinamento é oferecido gratuitamente e prepara o colaborador para atuar com segurança nas atividades escolares.",
     options: [
-      "Mantenho a calma e foco nas soluções",
-      "Fico um pouco nervoso, mas consigo me adaptar",
-      "Tenho dificuldade para lidar com pressão"
+      "Depende da carga do curso",
+      "Sim, com certeza",
+      "Prefiro começar direto no trabalho",
+      "Sim, se for em horário acessível"
     ]
   },
   {
     id: 3,
-    question: "Qual sua experiência com trabalho em equipe?",
+    question: "Você se vê contribuindo ativamente em um ambiente escolar com professores, funcionários e gestores?",
+    context: "As equipes das escolas são compostas por profissionais de diversas áreas, trabalhando juntos pelo desenvolvimento dos alunos.",
     options: [
-      "Tenho muita facilidade e gosto de colaborar",
-      "Consigo trabalhar bem em equipe quando necessário",
-      "Prefiro trabalhar individualmente"
+      "Dependeria da equipe",
+      "Sim, já estou acostumada",
+      "Nunca trabalhei em ambiente assim",
+      "Sim, com boa comunicação"
     ]
   },
   {
     id: 4,
-    question: "Como você se relaciona com horários e prazos?",
+    question: "Você acredita que, com apoio e treinamento, pode se adaptar bem às rotinas escolares?",
+    context: "O programa Escolas Conectadas oferece capacitação gratuita para todos os colaboradores, preparando-os para as funções nas escolas públicas.",
     options: [
-      "Sou muito pontual e organizado com prazos",
-      "Geralmente cumpro os prazos estabelecidos",
-      "Às vezes tenho dificuldade com pontualidade"
-    ]
-  },
-  {
-    id: 5,
-    question: "Qual sua motivação para trabalhar na área da educação?",
-    options: [
-      "Tenho paixão por contribuir com a educação",
-      "Vejo como uma boa oportunidade profissional",
-      "É uma área que me interessa moderadamente"
+      "Talvez, dependendo da função",
+      "Sim, aprendo rápido com orientação",
+      "Tenho receio com mudanças",
+      "Sim, desde que tenha um início bem explicado"
     ]
   }
 ];
@@ -103,7 +111,7 @@ const BehavioralQuiz: React.FC = () => {
           <div className="flex items-center justify-between">
 
             <div className="text-sm text-gray-600">
-              Programa Agente do Programa Mais Escola - Avaliação Comportamental
+              Programa Agente Escola - Avaliação Comportamental
             </div>
           </div>
         </div>
@@ -115,7 +123,7 @@ const BehavioralQuiz: React.FC = () => {
             <div className="flex flex-col space-y-1.5 p-6 text-center bg-[#1351B4] text-white">
               <h3 className="font-semibold tracking-tight text-2xl">Avaliação Comportamental</h3>
               <p className="text-blue-100 mt-2">
-                Avaliação do perfil profissional para o Programa Agente do Programa Mais Escola
+                Avaliação do perfil profissional para o Programa Agente Escola do Futuro
               </p>
             </div>
 

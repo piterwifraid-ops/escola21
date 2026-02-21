@@ -38,7 +38,7 @@ const Header: React.FC = () => {
   const handleShare = (platform: string) => {
     const url = window.location.href;
     const shareUrl = appendUtm(url);
-    const title = 'Portal Agente do Programa Mais Escola';
+    const title = 'Portal Agente Escola';
     
     switch (platform) {
       case 'facebook':

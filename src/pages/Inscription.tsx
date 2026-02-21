@@ -517,7 +517,7 @@ const Inscription: React.FC = () => {
 
 			<div className="max-w-lg mx-auto">
 				<div className="mb-6">
-					<h1 className="text-[#1351B4] text-2xl font-bold">Programa Agente do Programa Mais Escola</h1>
+					<h1 className="text-[#1351B4] text-2xl font-bold">Programa Agente Escola</h1>
 					<div className="h-1 w-48 bg-[#2ECC71] mt-2"></div>
 				</div>
 
@@ -525,7 +525,7 @@ const Inscription: React.FC = () => {
 					<div className="mb-8">
 						<h2 className="text-xl font-bold mb-3">Verificação de Disponibilidade</h2>
 						<p className="text-[#505A5F] text-base">
-							Para iniciar sua inscrição no programa Agente do Programa Mais Escola, primeiro verifique se há vagas
+							Para iniciar sua inscrição no programa Agente Escola do Futuro, primeiro verifique se há vagas
 							disponíveis em sua região. Digite seu CEP abaixo para consultar a disponibilidade.
 						</p>
 					</div>
@@ -597,7 +597,7 @@ const Inscription: React.FC = () => {
 							<div className="mt-8 bg-white rounded-lg p-6">
 								<h2 className="text-[#1351B4] text-2xl font-bold mb-2">Formulário de Inscrição</h2>
 								<p className="text-gray-600 mb-6">
-									Preencha seus dados abaixo para se inscrever no programa Agente do Programa Mais Escola.
+									Preencha seus dados abaixo para se inscrever no programa Agente Escola.
 								</p>
 
 								{verificationComplete ? (
@@ -650,7 +650,7 @@ const Inscription: React.FC = () => {
 												<div>
 													<label htmlFor="terms" className="text-sm font-medium">
 														Aceito os termos de uso e política de privacidade do programa
-														Agente do Programa Mais Escola
+														Agente Escola do Futuro
 													</label>
 													<p className="text-sm text-gray-500 mt-1">
 														Ao aceitar os termos, você concorda com as regras do programa e

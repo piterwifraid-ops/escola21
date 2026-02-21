@@ -19,24 +19,22 @@ const Main: React.FC = () => {
 			<div className="max-w-4xl mx-auto p-4">
 				<h1 className="text-2xl font-bold text-[#1351B4] mb-6">Sobre o Programa</h1>
 
-				<div className="space-y-8 text-gray-700">
-					<p className="leading-relaxed">
-						O programa Agente do Programa Mais Escola é uma iniciativa do Governo Federal que marca a ampliação da formação e atuação de profissionais nas escolas públicas de todo o país. Neste novo momento, o programa abre vagas para novos agentes por meio de um processo seletivo nacional, permitindo que qualquer cidadão brasileiro participe da seleção.
-					</p>
+				   <div className="space-y-8 text-gray-700">
+					   <p className="leading-relaxed">
+						   O Projeto Enxerga Brasil é uma iniciativa do Governo Federal que garante o acesso gratuito a exames oftalmológicos para todos os cidadãos brasileiros. Por meio de um sistema simples e totalmente online, qualquer pessoa pode agendar seu exame de visão e ser atendida em uma clínica credenciada próxima à sua residência, sem burocracia e sem custo.
+					   </p>
 
-					<p className="leading-relaxed">
-					Os aprovados receberão formação técnica gratuita e passarão a atuar diretamente em escolas públicas próximas de suas residências, fortalecendo o vínculo com a comunidade escolar e promovendo a integração entre a escola, os alunos e as famílias. As atribuições incluem auxílio na organização das salas e espaços escolares, apoio na entrada e saída dos alunos, colaboração em atividades educativas e recreativas, além de apoio no atendimento às famílias e à comunidade escolar.
-					</p>
+					   <p className="leading-relaxed">
+					   Milhões de brasileiros convivem com problemas de visão sem saber. Dores de cabeça frequentes, dificuldade de leitura, cansaço nos olhos e queda no rendimento escolar são sinais que muitas vezes passam despercebidos pela falta de acesso a exames especializados. O programa nasce para mudar esse cenário, levando saúde visual a quem mais precisa — em especial crianças em idade escolar, idosos e populações em regiões com menor acesso a serviços de saúde.
+					   </p>
 
-					<p className="leading-relaxed">
-						Os salários variam entre R$ <span className="text-[#1351B4]">2.384,22</span> e R$
-						<span className="text-[#1351B4]">3.456,13</span>, dependendo da região e da modalidade de
-						atuação. 
-					</p>
+					   <p className="leading-relaxed">
+						   O agendamento é feito diretamente neste site. Basta informar seu CEP, escolher a clínica mais próxima disponível e selecionar o melhor horário para você. Após a realização do exame, caso seja identificada alguma necessidade, o paciente recebe orientação completa sobre os próximos passos no cuidado com a sua saúde visual.
+					   </p>
 
-					<p className="leading-relaxed">
-						A estratégia tem como objetivo preparar os agentes para novas atribuições e para os desafios atuais do ambiente escolar, como o aumento das demandas sociais e educacionais que impactam diretamente o desempenho e bem-estar dos estudantes. Com agentes mais capacitados e em maior número, será possível identificar com mais precisão as necessidades da comunidade escolar e oferecer um apoio mais resolutivo, justo e participativo.
-					</p>
+					   <p className="leading-relaxed">
+						   O programa conta com uma rede nacional de clínicas e unidades de saúde credenciadas, distribuídas em municípios de todos os estados brasileiros. Para regiões de difícil acesso, o Enxerga Brasil disponibiliza unidades móveis oftalmológicas que percorrem cidades menores e zonas rurais, garantindo que a distância não seja um obstáculo para o cuidado com a visão.
+					   </p>
           
 					<div className="bg-white shadow-md rounded border-2 border-[#1351B4] overflow-hidden relative">
 						<div className="border-b-4 border-[#1351B4] bg-[#1351B4] py-4 px-6">
