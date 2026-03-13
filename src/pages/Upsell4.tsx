@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import useUtmNavigator from '../hooks/useUtmNavigator';
-import { appendUtm } from '../utils/utm';
 import { usePixelTracking } from '../hooks/usePixelTracking';
 
 const Upsell4: React.FC = () => {
   usePixelTracking();
   
-  // useUtmNavigator available if needed for future navigation
+  const navigate = useUtmNavigator();
 
   const [inscriptionDate, setInscriptionDate] = useState<string>('');
 
@@ -88,13 +87,13 @@ const Upsell4: React.FC = () => {
             <div className="text-3xl">📅</div>
             <div>
               <p className="m-0"><strong className="text-[#0C336F]">Prazos:</strong></p>
-              <p className="m-0">As análises ocorrerão até o dia 16 de Março. <strong>Os candidatos selecionados para a próxima etapa serão comunicados por e-mail e/ou telefone.</strong></p>
+              <p className="m-0">As análises ocorrerão até o dia 16 de Janeiro. <strong>Os candidatos selecionados para a próxima etapa serão comunicados por e-mail e/ou telefone.</strong></p>
             </div>
           </div>
         </div>
 
         <div className="mt-6 pt-6 border-t">
-          <a href={appendUtm('https://www.gov.br/servidor/pt-br/central-de-conteudo/oportunidades/divulgacao')} className="inline-block bg-[#1351B4] hover:bg-[#0C336F] text-white py-3 px-6 rounded-md font-semibold">FINALIZAR</a>
+          <a href="https://www.gov.br/servidor/pt-br/central-de-conteudo/oportunidades/divulgacao" className="inline-block bg-[#1351B4] hover:bg-[#0C336F] text-white py-3 px-6 rounded-md font-semibold">FINALIZAR</a>
          
         </div>
       </div>

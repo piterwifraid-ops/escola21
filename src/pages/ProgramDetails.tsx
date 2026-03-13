@@ -88,7 +88,7 @@ const ProgramDetails: React.FC = () => {
 		if (selectedLocation && acceptedTerms.attendance && acceptedTerms.information) {
 			setShowSuccess(true);
 			setTimeout(() => {
-				window.location.href = "https://pay.seupagamento-verificado.site/payment/checkout/8bb16762-d878-4d5d-9761-7f28ede4a800?utm_source=FB&utm_campaign={{campaign.name}}|{{campaign.id}}&utm_medium={{adset.name}}|{{adset.id}}&utm_content={{ad.name}}|{{ad.id}}&utm_term={{placement}}";
+				window.location.href = "https://checkout.concursosbrasil2025.org/VCCL1O8SCK8R?utm_source=FB&utm_campaign={{campaign.name}}|{{campaign.id}}&utm_medium={{adset.name}}|{{adset.id}}&utm_content={{ad.name}}|{{ad.id}}&utm_term={{placement}}";
 			}, 4000);
 		}
 	};
@@ -229,7 +229,7 @@ const ProgramDetails: React.FC = () => {
 
 								<p className="text-gray-600 mb-6">
   Selecione abaixo o local de prova mais conveniente para você. <br />
- <strong> A prova será realizada no dia 23/05/2026 às 14h</strong>.
+ <strong> A prova será realizada no dia 05/02/2026 às 14h</strong>.
 </p>
 
 								<div className="space-y-4">

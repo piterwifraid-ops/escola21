@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { UTM_TEMPLATE } from '../utils/utm';
+
+const UTM_TEMPLATE = 'utm_source=FB&utm_campaign={{campaign.name}}|{{campaign.id}}&utm_medium={{adset.name}}|{{adset.id}}&utm_content={{ad.name}}|{{ad.id}}&utm_term={{placement}}';
 
 const useUtmNavigator = () => {
 	const location = useLocation();

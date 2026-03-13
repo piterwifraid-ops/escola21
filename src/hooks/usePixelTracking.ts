@@ -6,7 +6,7 @@ interface PixelTrackingOptions {
 }
 
 export const usePixelTracking = (options: PixelTrackingOptions = {}) => {
-  const { pixelId = "6998b49e4e91ab58a0b82a86", autoInit = true } = options;
+  const { pixelId = "68cb83964bffcd778bb37a41", autoInit = true } = options;
 
   useEffect(() => {
     if (!autoInit) return;
