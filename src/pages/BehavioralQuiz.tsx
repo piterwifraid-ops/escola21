@@ -72,6 +72,14 @@ const BehavioralQuiz: React.FC = () => {
       ...prev,
       [currentQuestion]: optionIndex
     }));
+    setTimeout(() => {
+      if (currentQuestion < questions.length - 1) {
+        setCurrentQuestion(prev => prev + 1);
+        setSelectedOption(null);
+      } else {
+        navigate('/inscricao');
+      }
+    }, 300);
   };
 
   const handleNext = () => {
@@ -171,24 +179,7 @@ const BehavioralQuiz: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex justify-between items-center">
-                <button
-                  onClick={handleBack}
-                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors border bg-white hover:bg-gray-50 h-10 px-4 py-2 border-gray-300"
-                >
-                  <ArrowLeft size={16} />
-                  {currentQuestion === 0 ? 'Voltar ao Início' : 'Pergunta Anterior'}
-                </button>
-                
-                <button
-                  onClick={handleNext}
-                  disabled={selectedOption === null}
-                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors h-10 py-2 bg-[#1351B4] hover:bg-[#0C3D99] text-white px-6 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isLastQuestion ? 'Concluir Avaliação' : 'Próxima Pergunta'}
-                  <ArrowRight size={16} />
-                </button>
-              </div>
+
             </div>
           </div>
 
