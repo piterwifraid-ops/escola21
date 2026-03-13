@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Check, MapPin, DollarSign, GraduationCap, Award } from "lucide-react";
 import { useLocation } from "../context/LocationContext";
 import useUtmNavigator from "../hooks/useUtmNavigator";
@@ -18,6 +18,8 @@ const ProgramDetails: React.FC = () => {
 	const [showSavedPopup, setShowSavedPopup] = useState(false);
 	const [showConfirmedPopup, setShowConfirmedPopup] = useState(false);
 	const { selectedCEP, nearbySchools } = useLocation();
+	const navigate = useUtmNavigator();
+	const successRef = useRef<HTMLDivElement>(null);
 	const [confirmationSteps, setConfirmationSteps] = useState([
 		{
 			id: "region",
@@ -55,9 +57,7 @@ const ProgramDetails: React.FC = () => {
 
 	useEffect(() => {
 		if (!selectedCEP) {
-			const navigate = useUtmNavigator();
-			navigate("/inscricao");
-			return;
+
 		}
 
 		const completeSteps = async () => {
@@ -79,6 +79,8 @@ const ProgramDetails: React.FC = () => {
 			await new Promise((resolve) => setTimeout(resolve, 3000));
 			setShowConfirmedPopup(false);
 			setShowSuccessMessage(true);
+			await new Promise(resolve => setTimeout(resolve, 100));
+			successRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 		};
 
 		completeSteps();
@@ -182,7 +184,7 @@ const ProgramDetails: React.FC = () => {
 					</div>
 
 					{showSuccessMessage && (
-						<div className="mt-8 p-6 bg-green-50 rounded-lg border border-green-100">
+						<div ref={successRef} className="mt-8 p-6 bg-green-50 rounded-lg border border-green-100">
 							<h3 className="text-green-700 font-bold text-lg mb-2">
 								Parabéns! Sua avaliação preliminar foi bem-sucedida.
 							</h3>

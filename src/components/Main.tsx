@@ -88,8 +88,8 @@ const Main: React.FC = memo(() => {
 						</button>
 					</div>
 					<div className="text-gray-700 text-sm">
-						<p>Publicado em 16/12/2025 17h37</p>
-						<p>Atualizado em 17/12/2025 00h29</p>
+						<p>Publicado em 10/03/2026 17h37</p>
+						<p>Atualizado em 12/03/2026 00h29</p>
 					</div>
 				</div>
 
