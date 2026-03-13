@@ -37,7 +37,7 @@ const Header: React.FC = () => {
           <img
             src={GOV_LOGO_BASE64}
             alt="gov.br logo"
-            className="h-[12.59px]"
+            className="h-[25.18px]"
           />
           <button
             className="text-[#1351B4] hover:bg-gray-100 p-2 rounded-md transition-colors"
