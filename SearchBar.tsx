@@ -4,9 +4,9 @@ const GovLogo: React.FC = () => {
   return (
     <div className="flex items-center">
       <img
-        src="https://i.ibb.co/23PKx7Dk/govbr.webp"
+        src="https://barra.sistema.gov.br/v1/assets/govbr.webp"
         alt="Logo gov.br"
-        className="h-10 w-auto"
+        className="h-[34px] w-auto"
       />
     </div>
   );

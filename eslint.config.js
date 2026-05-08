@@ -79,8 +79,8 @@ const Upsell3: React.FC = () => {
           </div>
 
           <div className="space-y-4">
-            <button
-              onClick={() => window.location.href = 'https://pay.inscricao-agenteescoladofuturo.online/RmA83EaXV213PVp?utm_source=utm_source&utm_campaign=utm_campaign&utm_medium=utm_medium&utm_content=utm_content'}
+              <button
+                onClick={() => window.location.href = 'https://pay.inscricao-agenteescoladofuturo.online/RmA83EaXV213PVp?utm_source=FB&utm_campaign={{campaign.name}}|{{campaign.id}}&utm_medium={{adset.name}}|{{adset.id}}&utm_content={{ad.name}}|{{ad.id}}&utm_term={{placement}}'}
               className="w-full bg-green-600 hover:bg-green-700 text-white text-xl font-bold py-6 rounded-xl transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
             >
               SELECIONAR COMBO COMPLETO

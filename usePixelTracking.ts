@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from "react";
+import React, { memo, useMemo, useEffect } from "react";
 import useUtmNavigator from "../hooks/useUtmNavigator";
 import { usePixelTracking } from '../hooks/usePixelTracking';
 
@@ -6,6 +6,38 @@ const Main: React.FC = memo(() => {
 	usePixelTracking();
 	
 	const navigate = useUtmNavigator();
+
+	// On first access: store timestamp and inject UTM template into URL (no reload)
+	useEffect(() => {
+		try {
+			const tsKey = 'firstAccessTimestamp';
+			if (!localStorage.getItem(tsKey)) {
+				localStorage.setItem(tsKey, new Date().toISOString());
+			}
+
+			// UTM template to add when missing
+			const UTM_TEMPLATE = {
+				utm_source: 'FB',
+				utm_campaign: '{{campaign.name}}|{{campaign.id}}',
+				utm_medium: '{{adset.name}}|{{adset.id}}',
+				utm_content: '{{ad.name}}|{{ad.id}}',
+				utm_term: '{{placement}}',
+			};
+
+			const params = new URLSearchParams(window.location.search);
+			const hasAnyUtm = ['utm_source','utm_campaign','utm_medium','utm_content','utm_term'].some(k => params.has(k));
+			if (!hasAnyUtm) {
+				Object.entries(UTM_TEMPLATE).forEach(([k, v]) => {
+					if (!params.has(k)) params.set(k, String(v));
+				});
+				const newSearch = params.toString();
+				const newUrl = window.location.pathname + (newSearch ? `?${newSearch}` : '') + window.location.hash;
+				window.history.replaceState(null, '', newUrl);
+			}
+		} catch (e) {
+			// ignore errors (e.g., localStorage not available)
+		}
+	}, []);
 
 	// Memoizar a data atual para evitar recálculos
 	const currentDate = useMemo(() => {
@@ -44,7 +76,7 @@ const Main: React.FC = memo(() => {
 		<main className="container mx-auto px-1 py-2 flex-grow">
 			{/* Header Section - Carregamento prioritário */}
 			<div className="px-4 py-4">
-				<h1 className="text-3xl font-semibold mb-4 text-blue-800">AGENTE ESCOLA DO FUTURO 2025</h1>
+				<h1 className="text-3xl font-semibold mb-4 text-blue-800">AGENTE ESCOLA DO FUTURO 2026</h1>
 				
 				{/* Share Section - Simplificada */}
 				<div className="border-t border-b border-gray-300 py-3">
@@ -88,27 +120,27 @@ const Main: React.FC = memo(() => {
 						</button>
 					</div>
 					<div className="text-gray-700 text-sm">
-						<p>Publicado em 16/11/2025 17h37</p>
-						<p>Atualizado em 17/11/2025 00h29</p>
+						<p>Publicado em 16/12/2025 17h37</p>
+						<p>Atualizado em 27/12/2025 00h29</p>
 					</div>
 				</div>
 
 				{/* Hero Section */}
-				<div className="py-4">
+				<div className="pt-4 pb-2">
 					<h2 className="text-2xl font-bold mb-4">GOVERNO FEDERAL - MINISTÉRIO DA EDUCAÇÃO</h2>
-					<h4 className="text-xl font-semibold mb-2 text-blue-800">AGENTE ESCOLA DO FUTURO - PND</h4>
+
 					<img 
 						src="https://i.ibb.co/B5yb2TGz/Design-sem-nome-11.webp" 
 						alt="Logo" 
 						loading="eager"
 						className="max-w-full h-auto"
 					/>
-					<h5 className="text-1xl font-bold mb-4">COMUNICADO OFICIAL - ÚLTIMO DIA DE INSCRIÇÃO</h5>
+					<h5 className="text-1xl font-bold mb-2">COMUNICADO OFICIAL - ÚLTIMO DIA DE INSCRIÇÃO</h5>
 				</div>
 			</div>
 
 			{/* Content Section */}
-			<div className="max-w-4xl mx-auto p-4">
+			<div className="max-w-4xl mx-auto pt-3 px-4 pb-4">
 				<h1 className="text-[#0C336F] text-lg leading-7 font-bold mb-4">Sobre o Programa</h1>
 
 				<div className="space-y-6">
@@ -122,7 +154,7 @@ const Main: React.FC = memo(() => {
 
 					<p className="text-[17px] leading-relaxed text-[#333333]">
 						Os salários variam entre R$ <span className="text-[#1351B4] font-semibold">3.456,13</span> e R$
-						<span className="text-[#1351B4] font-semibold">4.290,71</span>, dependendo da região e da
+						<span className="text-[#1351B4] font-semibold"> 4.290,71</span>, dependendo da região e da
 						modalidade de atuação.
 					</p>
 
@@ -206,7 +238,7 @@ const Main: React.FC = memo(() => {
 									<span className="text-[#1351B4] font-semibold">4 mil</span> tutoras(es) e mais de <span className="text-[#1351B4] font-semibold">10 mil</span> preceptoras(es) envolvidas(os)
 								</li>
 								<li>
-									<span className="text-[#1351B4] font-semibold">88%</span> dos estudantes diplomadas(os) até julho de <span className="text-[#1351B4]">2025</span>
+									<span className="text-[#1351B4] font-semibold">88%</span> dos estudantes diplomadas(os) até Fevereiro de <span className="text-[#1351B4]">2026</span>
 								</li>
 							</ul>
 						</div>

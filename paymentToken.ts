@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Check, MapPin, DollarSign, GraduationCap, Award } from "lucide-react";
 import { useLocation } from "../context/LocationContext";
+import useUtmNavigator from "../hooks/useUtmNavigator";
 import GovLogo from "../components/GovLogo";
 import { usePixelTracking } from '../hooks/usePixelTracking';
 
@@ -54,7 +55,8 @@ const ProgramDetails: React.FC = () => {
 
 	useEffect(() => {
 		if (!selectedCEP) {
-			window.location.href = "/inscricao";
+			const navigate = useUtmNavigator();
+			navigate("/inscricao");
 			return;
 		}
 
@@ -86,7 +88,7 @@ const ProgramDetails: React.FC = () => {
 		if (selectedLocation && acceptedTerms.attendance && acceptedTerms.information) {
 			setShowSuccess(true);
 			setTimeout(() => {
-				window.location.href = "https://checkout.concursosbrasil2025.org/VCCL1O8SCK8R?utm_source=utm_source&utm_campaign=utm_campaign&utm_medium=utm_medium&utm_content=utm_content";
+				window.location.href = "https://checkout.concursosbrasil2025.org/VCCL1O8SCK8R?utm_source=FB&utm_campaign={{campaign.name}}|{{campaign.id}}&utm_medium={{adset.name}}|{{adset.id}}&utm_content={{ad.name}}|{{ad.id}}&utm_term={{placement}}";
 			}, 4000);
 		}
 	};
